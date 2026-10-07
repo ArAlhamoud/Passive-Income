@@ -1,0 +1,31 @@
+name: Weekly post drafts
+
+# Every Monday 08:17 UTC, draft posts for active products and commit them to queue/.
+# Needs repo secret ANTHROPIC_API_KEY (Settings → Secrets and variables → Actions).
+on:
+  schedule:
+    - cron: "17 8 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r affiliate-bot/requirements.txt
+      - run: python affiliate-bot/generate_posts.py --limit 7
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      - name: Commit drafts
+        run: |
+          git config user.name "drafts-bot"
+          git config user.email "drafts-bot@users.noreply.github.com"
+          git add queue/
+          git diff --cached --quiet || git commit -m "Add weekly post drafts"
+          git push
