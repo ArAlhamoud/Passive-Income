@@ -19,21 +19,30 @@ import os
 import pathlib
 import sys
 
+from sync_links import is_live, tracked_url
+
 ROOT = pathlib.Path(__file__).resolve().parent
 QUEUE_DIR = ROOT.parent / "queue"
 MODEL = os.environ.get("CLAUDE_MODEL", "claude-opus-5-5")
 DISCLOSURE = os.environ.get(
-    "AFFILIATE_DISCLOSURE", "#ad — I may earn a commission if you buy through this link."
+    "AFFILIATE_DISCLOSURE", "#إعلان #ad — قد أحصل على عمولة عند الشراء عبر الرابط | I may earn a commission."
 )
+OWN_PRODUCT_NOTE = "منتجنا | Our product"
 
-SYSTEM = """You write short, honest social media posts that promote products via affiliate links.
+SYSTEM = """You write short, honest social media posts for the brand
+"اذكى الأعمال الفائقة | Business Super Intelligence": AI and productivity tools for small business
+owners and freelancers in Saudi Arabia and the Gulf.
 Rules:
+- Write in Arabic (clear Modern Standard Arabic, light Saudi flavour is fine) AND English, as asked below.
+- Focus on a concrete business use (e.g. "write your Salla product descriptions in 5 minutes"), not hype.
 - Never invent specs, prices, discounts, reviews, ratings or scarcity ("only 3 left") — you don't know them.
 - No fake personal experience ("I've used this for months"). Speak about the product, not about yourself.
 - Hook in the first line, plain language, at most 2 emojis.
 - X post: max 230 characters EXCLUDING the link and disclosure (those get appended later).
 - Instagram caption: 2-4 short lines plus 5-8 relevant hashtags. Mention "link in bio".
-- Give 2 variants of each so the human can pick or A/B test."""
+- x_posts: exactly 2 posts, the first in Arabic, the second in English.
+- instagram_captions: exactly 2 captions, the first in Arabic, the second in English.
+- image_idea: one line in English describing a simple visual (screenshot, before/after, short reel idea)."""
 
 SCHEMA = {
     "type": "object",
@@ -49,12 +58,13 @@ SCHEMA = {
 
 def load_products(path: pathlib.Path) -> list[dict]:
     with path.open(newline="", encoding="utf-8") as f:
-        return [r for r in csv.DictReader(f) if r.get("active", "").strip().lower() == "yes"]
+        return [r for r in csv.DictReader(f) if is_live(r)]
 
 
 def draft_for(client, product: dict) -> dict:
     prompt = (
         f"Product: {product['name']}\n"
+        f"Type: {'our own product' if product['kind'] == 'own-product' else 'affiliate partner'}\n"
         f"Category: {product['category']}\n"
         f"Why it sells (my notes): {product['why_it_sells']}"
     )
@@ -69,7 +79,7 @@ def draft_for(client, product: dict) -> dict:
         },
     )
     if response.stop_reason == "refusal":
-        raise RuntimeError(f"model declined product {product['id']}")
+        raise RuntimeError(f"model declined product {product['slug']}")
     text = next(b.text for b in response.content if b.type == "text")
     return json.loads(text)
 
@@ -83,13 +93,15 @@ def placeholder(product: dict) -> dict:
 
 
 def render(product: dict, draft: dict) -> str:
-    link = product["affiliate_url"]
-    lines = [f"## {product['name']} (`{product['id']}`)", "", "### X"]
+    today = dt.date.today().isoformat()
+    note = OWN_PRODUCT_NOTE if product["kind"] == "own-product" else DISCLOSURE
+    lines = [f"## {product['name']} (`{product['slug']}`)", "", "### X"]
     for i, post in enumerate(draft["x_posts"], 1):
-        lines += [f"**Variant {i}**", "", f"{post}\n{link}\n{DISCLOSURE}", ""]
-    lines.append("### Instagram")
+        link = tracked_url(product["slug"], f"x-{today}-{i}")
+        lines += [f"**Variant {i}**", "", f"{post}\n{link}\n{note}", ""]
+    lines.append(f"### Instagram (bio link → site; story link: {tracked_url(product['slug'], 'ig-' + today)})")
     for i, cap in enumerate(draft["instagram_captions"], 1):
-        lines += [f"**Variant {i}**", "", f"{cap}\n\n{DISCLOSURE}", ""]
+        lines += [f"**Variant {i}**", "", f"{cap}\n\n{note}", ""]
     lines += [f"_Image idea:_ {draft['image_idea']}", "", "---", ""]
     return "\n".join(lines)
 
@@ -105,7 +117,7 @@ def main() -> int:
     if args.limit:
         products = products[: args.limit]
     if not products:
-        print("No active products in products.csv", file=sys.stderr)
+        print("No live products (active=yes with a real https link) in products.csv", file=sys.stderr)
         return 1
 
     client = None
@@ -119,7 +131,7 @@ def main() -> int:
         try:
             draft = placeholder(p) if args.dry_run else draft_for(client, p)
         except Exception as e:  # keep going; one bad product shouldn't kill the batch
-            print(f"skip {p['id']}: {e}", file=sys.stderr)
+            print(f"skip {p['slug']}: {e}", file=sys.stderr)
             continue
         sections.append(render(p, draft))
 

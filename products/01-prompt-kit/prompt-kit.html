@@ -1,0 +1,1466 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>حقيبة أوامر الذكاء الاصطناعي لأصحاب المشاريع — AI Prompt Kit | BSI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0B1F3A; --navy-2:#13325C; --gold:#C9A24B; --gold-soft:#F6EEDB;
+  --ink:#1B2430; --muted:#5B6675; --line:#E3E7EE; --paper:#FFFFFF; --tint:#F5F7FA;
+  --teal:#0F766E; --teal-soft:#E6F4F2; --ph:#FFF3C4; --ph-ink:#7A5200;
+}
+@page{ size:A4; margin:16mm 15mm 18mm 15mm;
+  @bottom-center{ content:counter(page); font-family:"IBM Plex Sans Arabic","Noto Sans Arabic",sans-serif; font-size:9pt; color:#8A94A3; }
+  @bottom-right{ content:"BSI"; font-family:"IBM Plex Sans Arabic",sans-serif; font-size:8pt; color:#B0B8C4; letter-spacing:.15em; }
+}
+@page cover{ margin:0; @bottom-center{content:none} @bottom-right{content:none} }
+*{ box-sizing:border-box; }
+html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+body{ margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans Arabic","Noto Sans Arabic","Noto Kufi Arabic","Segoe UI","Tahoma","DejaVu Sans",sans-serif;
+  font-size:10.5pt; line-height:1.75; }
+.en, [lang=en]{ font-family:"IBM Plex Sans","IBM Plex Sans Arabic","Segoe UI",Arial,sans-serif; }
+h1,h2,h3{ margin:0; line-height:1.35; }
+
+/* ---------- screen preview ---------- */
+@media screen{
+  body{ background:#E9EDF2; }
+  .page{ width:210mm; min-height:297mm; margin:12px auto; background:#fff; padding:16mm 15mm; box-shadow:0 2px 12px rgba(0,0,0,.08); }
+  .cover.page{ padding:0; }
+  @media (max-width:820px){ .page{ width:auto; min-height:0; margin:8px; padding:16px; } }
+}
+@media print{
+  .page{ break-before:page; }
+  .page:first-child{ break-before:auto; }
+}
+
+/* ---------- cover ---------- */
+.cover{ page:cover; position:relative; height:297mm; overflow:hidden;
+  background:radial-gradient(120% 80% at 85% 10%, #1C4A80 0%, var(--navy) 55%, #071427 100%); color:#fff; }
+.cover .frame{ position:absolute; inset:14mm; border:1px solid rgba(201,162,75,.55); border-radius:6mm; }
+.cover .pattern{ position:absolute; inset:0; opacity:.10;
+  background-image:repeating-linear-gradient(45deg, #C9A24B 0 1px, transparent 1px 22px), repeating-linear-gradient(-45deg, #C9A24B 0 1px, transparent 1px 22px); }
+.cover .inner{ position:absolute; inset:30mm 26mm; display:flex; flex-direction:column; }
+.cover .brand{ display:flex; align-items:center; gap:12px; }
+.cover .mark{ width:46px; height:46px; border-radius:12px; background:var(--gold); color:var(--navy); display:grid; place-items:center; font-weight:700; font-size:15pt; letter-spacing:.04em; font-family:"IBM Plex Sans",sans-serif; }
+.cover .brand-ar{ font-size:13pt; font-weight:600; }
+.cover .brand-en{ font-size:9.5pt; letter-spacing:.12em; text-transform:uppercase; color:#C8D3E3; }
+.cover .titles{ margin-top:auto; margin-bottom:auto; }
+.cover .kicker{ display:inline-block; background:rgba(201,162,75,.18); color:#F1DDAE; border:1px solid rgba(201,162,75,.5); padding:4px 14px; border-radius:99px; font-size:10pt; margin-bottom:18px; }
+.cover h1{ font-size:34pt; font-weight:700; line-height:1.3; }
+.cover h1 .accent{ color:var(--gold); }
+.cover .title-en{ direction:ltr; text-align:left; margin-top:18px; font-size:19pt; font-weight:500; color:#DCE4EF; line-height:1.3; }
+.cover .rule{ width:90px; height:4px; background:var(--gold); border-radius:4px; margin:26px 0; }
+.cover .stats{ display:flex; gap:12px; flex-wrap:wrap; }
+.cover .stat{ border:1px solid rgba(255,255,255,.22); border-radius:10px; padding:8px 14px; font-size:10pt; color:#E7EDF5; }
+.cover .stat b{ color:var(--gold); font-size:14pt; margin-inline-end:6px; }
+.cover .tools{ margin-top:18px; font-size:9.5pt; color:#AFC0D6; }
+.cover .foot{ display:flex; justify-content:space-between; align-items:flex-end; font-size:9pt; color:#AFC0D6; }
+
+/* ---------- generic headings ---------- */
+.eyebrow{ color:var(--gold); font-weight:600; font-size:9.5pt; letter-spacing:.06em; }
+.page-title{ font-size:20pt; color:var(--navy); font-weight:700; }
+.page-title-en{ direction:ltr; text-align:left; color:var(--muted); font-size:12pt; font-weight:500; margin-top:2px; }
+.divider{ height:3px; width:64px; background:var(--gold); border-radius:3px; margin:12px 0 18px; }
+p{ margin:0 0 8px; }
+
+/* ---------- intro ---------- */
+.two-col{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.box{ border:1px solid var(--line); border-radius:10px; padding:10px 13px; font-size:9.6pt; line-height:1.6; background:var(--tint); break-inside:avoid; }
+.box h3{ font-size:11.5pt; color:var(--navy); margin-bottom:6px; }
+.box ol, .box ul{ margin:0; padding-inline-start:20px; }
+.box li{ margin-bottom:3px; }
+.box.en{ direction:ltr; text-align:left; background:#fff; }
+.warn{ border:1px solid #F0D9A8; background:#FFF9EC; border-radius:10px; padding:10px 13px; margin-top:12px; font-size:9.6pt; line-height:1.65; break-inside:avoid; }
+.warn h3{ color:#8A5A00; font-size:11.5pt; margin-bottom:4px; }
+.warn .en{ direction:ltr; text-align:left; color:#6B5A3A; font-size:8.8pt; line-height:1.5; margin-top:6px; border-top:1px dashed #EBD3A0; padding-top:6px; }
+.legend{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; font-size:8.8pt; line-height:1.5; }
+.legend span.item{ border:1px solid var(--line); border-radius:10px; padding:4px 10px; background:#fff; }
+.example{ margin-top:10px; font-size:9.8pt; }
+
+/* ---------- TOC ---------- */
+.toc{ list-style:none; margin:0; padding:0; }
+.toc li{ display:grid; grid-template-columns:34px 1fr auto; align-items:center; gap:10px; padding:9px 0; border-bottom:1px solid var(--line); }
+.toc .n{ width:30px; height:30px; border-radius:8px; background:var(--navy); color:#fff; display:grid; place-items:center; font-weight:600; font-size:10pt; }
+.toc .t{ font-weight:600; color:var(--navy); }
+.toc .t small{ display:block; direction:ltr; text-align:right; font-weight:400; color:var(--muted); font-size:9pt; }
+.toc .c{ color:var(--muted); font-size:9.5pt; white-space:nowrap; }
+
+/* ---------- section header ---------- */
+.sec-head{ background:linear-gradient(135deg,var(--navy),var(--navy-2)); color:#fff; border-radius:12px; padding:13px 18px; margin-bottom:11px; position:relative; overflow:hidden; }
+.sec-head::after{ content:""; position:absolute; inset-inline-start:-30px; top:-30px; width:120px; height:120px; border-radius:50%; border:16px solid rgba(201,162,75,.18); }
+.sec-head .num{ color:var(--gold); font-size:9.5pt; font-weight:600; letter-spacing:.06em; }
+.sec-head h2{ font-size:17pt; font-weight:700; }
+.sec-head .en-title{ direction:ltr; text-align:left; color:#C8D3E3; font-size:11pt; }
+.sec-head .intro{ margin-top:8px; font-size:9.8pt; color:#E3EAF3; }
+.sec-head .intro .en{ direction:ltr; text-align:left; color:#AFC0D6; font-size:9pt; margin-top:2px; }
+
+/* ---------- prompt card ---------- */
+.card{ border:1px solid var(--line); border-radius:10px; padding:9px 12px 10px; margin-bottom:9px; break-inside:avoid; background:#fff; }
+.card-head{ display:flex; gap:10px; align-items:flex-start; }
+.card-head .id{ flex:0 0 auto; min-width:30px; height:30px; border-radius:9px; background:var(--gold-soft); color:#8A6A1F; display:grid; place-items:center; font-weight:700; font-size:10.5pt; font-family:"IBM Plex Sans",sans-serif; }
+.card-head h3{ font-size:12pt; color:var(--navy); }
+.card-head .t-en{ direction:ltr; text-align:right; color:var(--muted); font-size:9.5pt; font-weight:500; }
+.card-head .titles{ flex:1; }
+.badge{ display:inline-block; font-size:8pt; font-weight:600; background:var(--teal-soft); color:var(--teal); border:1px solid #BFE3DE; border-radius:99px; padding:1px 9px; margin-inline-start:6px; vertical-align:middle; }
+.when{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:5px 0 6px; font-size:8.8pt; line-height:1.55; color:var(--muted); }
+.when .lab{ font-weight:600; color:var(--ink); }
+.when .en{ direction:ltr; text-align:left; }
+.prompt{ border-radius:8px; padding:7px 11px; font-size:9.6pt; line-height:1.72; position:relative; }
+.prompt .lab{ display:block; font-size:8pt; font-weight:600; letter-spacing:.06em; color:var(--muted); margin-bottom:2px; }
+.prompt.ar{ background:var(--tint); border-inline-start:3px solid var(--navy); }
+.prompt.en{ direction:ltr; text-align:left; background:#FBFCFD; border-left:3px solid var(--gold); margin-top:6px; font-size:8.9pt; line-height:1.55; }
+.ph{ background:var(--ph); color:var(--ph-ink); border-radius:4px; padding:0 3px; font-weight:600; box-decoration-break:clone; -webkit-box-decoration-break:clone; }
+.tip{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:6px; font-size:8.7pt; line-height:1.55; background:var(--teal-soft); border-radius:8px; padding:7px 10px; }
+.tip .lab{ font-weight:700; color:var(--teal); }
+.tip .en{ direction:ltr; text-align:left; color:#2F4F4B; }
+
+/* ---------- closing ---------- */
+.closing{ display:flex; flex-direction:column; justify-content:center; min-height:250mm; text-align:center; }
+.closing .mark{ width:64px; height:64px; margin:0 auto 16px; border-radius:16px; background:var(--navy); color:var(--gold); display:grid; place-items:center; font-weight:700; font-size:19pt; font-family:"IBM Plex Sans",sans-serif; }
+.closing h2{ font-size:22pt; color:var(--navy); }
+.closing .en-h{ direction:ltr; color:var(--muted); font-size:13pt; margin-top:4px; }
+.closing .link{ display:inline-block; margin:22px auto 6px; padding:10px 22px; border-radius:99px; background:var(--navy); color:#fff; text-decoration:none; font-weight:600; direction:ltr; }
+.closing .sub{ color:var(--muted); font-size:10pt; max-width:140mm; margin:14px auto 0; }
+.closing .sub .en{ direction:ltr; margin-top:6px; }
+.closing .legal{ margin-top:30px; font-size:8.5pt; color:#8A94A3; }
+</style>
+</head>
+<body>
+
+<section class="page cover">
+  <div class="pattern"></div>
+  <div class="frame"></div>
+  <div class="inner">
+    <div class="brand">
+      <div class="mark">BSI</div>
+      <div><div class="brand-ar">اذكى الأعمال الفائقة</div><div class="brand-en" lang="en">Business Super Intelligence</div></div>
+    </div>
+    <div class="titles">
+      <div class="kicker">إصدار ثنائي اللغة · Bilingual Edition</div>
+      <h1>حقيبة أوامر <span class="accent">الذكاء الاصطناعي</span><br>لأصحاب المشاريع</h1>
+      <div class="title-en" lang="en">AI Prompt Kit for<br>Saudi Business Owners</div>
+      <div class="rule"></div>
+      <div class="stats">
+        <div class="stat"><b>60</b>أمرًا جاهزًا للنسخ</div>
+        <div class="stat"><b>9</b>أقسام عملية</div>
+        <div class="stat"><b>2</b>لغتان: عربي · English</div>
+      </div>
+      <div class="tools" lang="en" dir="ltr">Works with Claude · ChatGPT · Gemini · Canva AI</div>
+    </div>
+    <div class="foot">
+      <div>للتسويق، المتاجر، خدمة العملاء، المواسم، التوظيف، والتخطيط</div>
+      <div lang="en" dir="ltr">bsi · [WEBSITE_URL]</div>
+    </div>
+  </div>
+</section>
+<section class="page">
+  <div class="eyebrow">ابدأ من هنا · START HERE</div>
+  <h1 class="page-title">كيف تستخدم هذه الحقيبة</h1>
+  <div class="page-title-en" lang="en">How to use this kit</div>
+  <div class="divider"></div>
+  <p>هذه الحقيبة تضم 60 أمرًا (Prompt) مكتوبًا بعناية لأصحاب المشاريع الصغيرة والمستقلين في السعودية والخليج. كل أمر مكتوب بالعربية الفصحى وبالإنجليزية، ويعمل مع أدوات مثل Claude وChatGPT وGemini، وبعضها مصمم لمساعدتك في Canva AI.</p>
+  <div class="two-col" style="margin-top:10px">
+    <div class="box">
+      <h3>خطوات الاستخدام</h3>
+      <ol>
+        <li>اختر الأمر المناسب من الفهرس.</li>
+        <li>انسخه كاملًا بالعربية أو الإنجليزية.</li>
+        <li>استبدل كل ما بين القوسين <span class="ph">[هكذا]</span> بمعلوماتك الحقيقية.</li>
+        <li>الصقه في أداة الذكاء الاصطناعي وأرسله.</li>
+        <li>حسّن النتيجة بطلبات قصيرة: «أقصر»، «أكثر رسمية»، «أعطني خيارات أخرى».</li>
+        <li>راجع النتيجة وعدّلها قبل النشر أو الإرسال.</li>
+      </ol>
+    </div>
+    <div class="box en" lang="en" dir="ltr">
+      <h3>How to use</h3>
+      <ol>
+        <li>Pick the right prompt from the contents page.</li>
+        <li>Copy it in full, in Arabic or English.</li>
+        <li>Replace everything in brackets <span class="ph">[LIKE_THIS]</span> with your real details.</li>
+        <li>Paste it into your AI tool and send.</li>
+        <li>Refine with short follow-ups: "shorter", "more formal", "give me other options".</li>
+        <li>Review and edit the result before publishing or sending.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="two-col" style="margin-top:10px">
+    <div class="box">
+      <h3>كيف تملأ الفراغات بين الأقواس</h3>
+      <ul>
+        <li>كلما كانت المعلومة أدق، كانت النتيجة أفضل. اكتب «عطور عود للرجال بسعر 250–400 ريال» بدل «عطور».</li>
+        <li>احذف الأقواس نفسها بعد الكتابة.</li>
+        <li>إذا وجدت خيارات مثل <span class="ph">[رسمي / ودّي]</span> فاختر واحدًا فقط.</li>
+        <li>إذا لم تنطبق معلومة على مشروعك، احذف الجملة كلها.</li>
+      </ul>
+      <div class="example"><b>مثال:</b> «لمشروع <span class="ph">[اسم المشروع]</span>» ← «لمشروع مقهى ريحان»</div>
+    </div>
+    <div class="box en" lang="en" dir="ltr">
+      <h3>Filling in the placeholders</h3>
+      <ul>
+        <li>Be specific: "men's oud perfumes, SAR 250–400" beats "perfumes".</li>
+        <li>Remove the brackets themselves once filled in.</li>
+        <li>Where you see options like <span class="ph">[formal / friendly]</span>, keep only one.</li>
+        <li>If a detail doesn't apply to you, delete the whole sentence.</li>
+      </ul>
+      <div class="example"><b>Example:</b> "for <span class="ph">[BUSINESS_NAME]</span>" → "for Rayhan Café"</div>
+    </div>
+  </div>
+  <div class="legend">
+    <span class="item"><span class="badge" style="margin:0">المخرَج باللهجة السعودية</span> الأمر مكتوب بالفصحى لكنه يطلب أن تكون النتيجة باللهجة السعودية البيضاء.</span>
+    <span class="item" lang="en" dir="ltr">The <b>Saudi-dialect</b> badge means the prompt asks for output in everyday Saudi dialect. Remove that line if you want MSA output.</span>
+  </div>
+</section>
+<section class="page">
+  <div class="eyebrow">الفهرس · CONTENTS</div>
+  <h1 class="page-title">محتويات الحقيبة</h1>
+  <div class="page-title-en" lang="en">What's inside — 60 prompts in 9 sections</div>
+  <div class="divider"></div>
+  <ul class="toc"><li><div class="n">1</div><div class="t">التسويق ومنشورات التواصل الاجتماعي<small lang="en">Marketing &amp; Social Media Posts</small></div><div class="c"><span>8 أوامر</span> · <span dir="ltr" lang="en">#1–8</span></div></li><li><div class="n">2</div><div class="t">أوصاف منتجات المتاجر الإلكترونية<small lang="en">Online Store Product Descriptions</small></div><div class="c"><span>7 أوامر</span> · <span dir="ltr" lang="en">#9–15</span></div></li><li><div class="n">3</div><div class="t">ردود خدمة العملاء عبر واتساب<small lang="en">WhatsApp Customer Service Replies</small></div><div class="c"><span>7 أوامر</span> · <span dir="ltr" lang="en">#16–22</span></div></li><li><div class="n">4</div><div class="t">الحملات الموسمية<small lang="en">Seasonal Campaigns</small></div><div class="c"><span>8 أوامر</span> · <span dir="ltr" lang="en">#23–30</span></div></li><li><div class="n">5</div><div class="t">العروض وصفحات الأسعار<small lang="en">Offers &amp; Pricing Pages</small></div><div class="c"><span>6 أوامر</span> · <span dir="ltr" lang="en">#31–36</span></div></li><li><div class="n">6</div><div class="t">خرائط Google والرد على التقييمات<small lang="en">Google Maps &amp; Review Replies</small></div><div class="c"><span>6 أوامر</span> · <span dir="ltr" lang="en">#37–42</span></div></li><li><div class="n">7</div><div class="t">التوظيف والموارد البشرية<small lang="en">Hiring &amp; HR</small></div><div class="c"><span>6 أوامر</span> · <span dir="ltr" lang="en">#43–48</span></div></li><li><div class="n">8</div><div class="t">التخطيط والأساسيات المالية<small lang="en">Planning &amp; Finance Basics</small></div><div class="c"><span>6 أوامر</span> · <span dir="ltr" lang="en">#49–54</span></div></li><li><div class="n">9</div><div class="t">الإنتاجية والبريد والاجتماعات<small lang="en">Productivity, Email &amp; Meetings</small></div><div class="c"><span>6 أوامر</span> · <span dir="ltr" lang="en">#55–60</span></div></li></ul>
+  <div class="warn" style="margin-top:22px">
+    <h3>تنبيه مهم: راجع كل ما ينتجه الذكاء الاصطناعي</h3>
+    <p style="margin:0">أدوات الذكاء الاصطناعي قد تخطئ في المعلومات أو الحسابات أو التواريخ، وقد تخترع تفاصيل غير صحيحة. تحقق من الأسعار والأرقام ومواعيد المناسبات الهجرية والمعلومات النظامية (مثل نظام العمل وضريبة القيمة المضافة والتجارة الإلكترونية) من مصادرها الرسمية قبل النشر. هذه الحقيبة أداة مساعدة للكتابة والتفكير، وليست استشارة قانونية أو محاسبية. ولا تُدخل بيانات حساسة مثل أرقام الهويات أو الحسابات البنكية أو بيانات العملاء الشخصية في أي أداة.</p>
+    <div class="en" lang="en">Important: AI tools can get facts, maths and dates wrong, and can invent details. Verify prices, numbers, Hijri dates and regulatory information (Labor Law, VAT, e-commerce rules) against official sources before publishing. This kit helps you write and think; it is not legal or accounting advice. Never paste sensitive data such as ID numbers, bank details or customers' personal information into an AI tool.</div>
+  </div>
+</section>
+<section class="page" id="sec-marketing">
+  <header class="sec-head">
+    <div class="num"><span>القسم 1</span> · <span lang="en" dir="ltr">SECTION 1</span></div>
+    <h2>التسويق ومنشورات التواصل الاجتماعي</h2>
+    <div class="en-title" lang="en">Marketing &amp; Social Media Posts</div>
+    <div class="intro">أوامر لكتابة منشورات إنستغرام وإكس وسناب شات وتيك توك بنبرة تناسب جمهورك في السعودية والخليج.<div class="en" lang="en">Prompts for Instagram, X, Snapchat and TikTok content in a tone that fits your Saudi and Gulf audience.</div></div>
+  </header>
+  
+<article class="card">
+  <div class="card-head">
+    <div class="id">01</div>
+    <div class="titles">
+      <h3>خطة محتوى شهرية</h3>
+      <div class="t-en" lang="en">Monthly Content Plan</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>في بداية كل شهر عندما تحتاج جدولًا واضحًا لما ستنشره.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>At the start of each month, when you need a clear posting schedule.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>أنت مدير تسويق رقمي خبير في السوق السعودي. أعدّ خطة محتوى لمدة <span class="ph">[عدد الأيام]</span> يومًا لمشروع <span class="ph">[اسم المشروع]</span> الذي يقدّم <span class="ph">[المنتج أو الخدمة]</span> لجمهور <span class="ph">[وصف الجمهور]</span> في <span class="ph">[المدينة]</span>. المنصات: <span class="ph">[المنصات]</span>. لكل يوم اكتب: المنصة، نوع المحتوى (صورة، فيديو قصير، قصة، نص)، فكرة المنشور في سطر واحد، والهدف (توعية، تفاعل، بيع). وزّع الأفكار بين محتوى تعليمي وترفيهي وترويجي، ولا تجعل المحتوى الترويجي أكثر من ثلثها. قدّم النتيجة في جدول.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>You are an expert digital marketing manager for the Saudi market. Build a <span class="ph">[NUMBER_OF_DAYS]</span>-day content plan for <span class="ph">[BUSINESS_NAME]</span>, which offers <span class="ph">[PRODUCT_OR_SERVICE]</span> to <span class="ph">[AUDIENCE_DESCRIPTION]</span> in <span class="ph">[CITY]</span>. Platforms: <span class="ph">[PLATFORMS]</span>. For each day give: platform, content type (image, short video, story, text), a one-line post idea, and the goal (awareness, engagement, sales). Mix educational, entertaining and promotional content, keeping promotional posts to no more than one third. Present the result as a table.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>اطلب منه بعد ذلك تحويل أي سطر في الجدول إلى منشور كامل، بدل أن تطلب ثلاثين منشورًا دفعة واحدة.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Afterwards, ask it to expand one row at a time into a full post instead of requesting thirty finished posts at once.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">02</div>
+    <div class="titles">
+      <h3>منشور إنستغرام مع وسوم<span class="badge">المخرَج باللهجة السعودية · Saudi-dialect output</span></h3>
+      <div class="t-en" lang="en">Instagram Caption with Hashtags</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عند نشر صورة منتج أو صورة من داخل المحل.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When posting a product photo or a behind-the-scenes shot.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب 3 نسخ مختلفة لتعليق منشور إنستغرام عن <span class="ph">[المنتج أو الخدمة]</span> من <span class="ph">[اسم المشروع]</span>. النبرة: <span class="ph">[النبرة: ودّية / فاخرة / مرحة]</span>. اكتب باللهجة السعودية البيضاء القريبة من الناس. كل نسخة: سطر أول جذّاب يوقف التمرير، ثم 2–3 أسطر عن الفائدة للعميل، ثم دعوة واضحة لاتخاذ إجراء مثل <span class="ph">[الإجراء المطلوب]</span>. أضف 8 وسوم (هاشتاقات) عربية وإنجليزية مناسبة لـ <span class="ph">[المدينة]</span> و<span class="ph">[المجال]</span>. استخدم رموزًا تعبيرية باعتدال.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Write 3 different Instagram captions for <span class="ph">[PRODUCT_OR_SERVICE]</span> from <span class="ph">[BUSINESS_NAME]</span>. Tone: <span class="ph">[TONE: friendly / premium / playful]</span>. Write in friendly, widely-understood Saudi dialect. Each version: an attention-grabbing first line, then 2–3 lines on the customer benefit, then a clear call to action such as <span class="ph">[DESIRED_ACTION]</span>. Add 8 Arabic and English hashtags relevant to <span class="ph">[CITY]</span> and <span class="ph">[INDUSTRY]</span>. Use emojis sparingly.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>انسخ النسخة التي تعجبك واطلب: «اجعلها أقصر بنسبة النصف» — غالبًا ما تكون النسخة الأقصر أقوى.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Take the version you like and ask: "Make it half as long" — the shorter version is often stronger.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">03</div>
+    <div class="titles">
+      <h3>سلسلة تغريدات (ثريد) على إكس</h3>
+      <div class="t-en" lang="en">X (Twitter) Thread</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عندما تريد بناء ثقة بمشاركة خبرتك في مجالك.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When you want to build trust by sharing your expertise.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب سلسلة تغريدات (ثريد) من <span class="ph">[عدد التغريدات]</span> تغريدات على منصة إكس بعنوان: <span class="ph">[موضوع الثريد]</span>. الكاتب صاحب مشروع <span class="ph">[نوع المشروع]</span> في السعودية ويريد مشاركة نصائح عملية لجمهور <span class="ph">[وصف الجمهور]</span>. التغريدة الأولى خطّاف قوي يدفع للقراءة. كل تغريدة لا تتجاوز 260 حرفًا وتحمل فكرة واحدة. التغريدة الأخيرة تلخّص وتدعو للمتابعة أو زيارة <span class="ph">[الرابط أو الحساب]</span>. لا تذكر أرقامًا أو إحصاءات غير مؤكدة.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Write an X thread of <span class="ph">[NUMBER_OF_POSTS]</span> posts titled: <span class="ph">[THREAD_TOPIC]</span>. The author owns a <span class="ph">[BUSINESS_TYPE]</span> in Saudi Arabia and wants to share practical tips with <span class="ph">[AUDIENCE_DESCRIPTION]</span>. The first post is a strong hook. Each post is under 260 characters and carries one idea. The last post summarises and invites people to follow or visit <span class="ph">[LINK_OR_HANDLE]</span>. Do not include unverified numbers or statistics.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>اطلب منه 5 خيارات للتغريدة الأولى وحدها؛ فهي التي تحدد إن كان أحد سيقرأ الباقي.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Ask for 5 alternative opening posts on their own — the first post decides whether anyone reads the rest.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">04</div>
+    <div class="titles">
+      <h3>سيناريو فيديو تيك توك / ريلز<span class="badge">المخرَج باللهجة السعودية · Saudi-dialect output</span></h3>
+      <div class="t-en" lang="en">TikTok / Reels Video Script</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>قبل تصوير فيديو قصير بالجوال.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>Before filming a short vertical video on your phone.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب سيناريو فيديو قصير مدته <span class="ph">[المدة بالثواني]</span> ثانية لتيك توك وريلز عن <span class="ph">[فكرة الفيديو]</span> لمشروع <span class="ph">[اسم المشروع]</span>. اكتب الكلام المنطوق باللهجة السعودية. قسّم السيناريو إلى جدول من ثلاثة أعمدة: الثانية، ما يظهر على الشاشة (اللقطة والنص المكتوب)، وما يُقال. أول 3 ثوانٍ يجب أن تشد الانتباه. اختم بدعوة إلى <span class="ph">[الإجراء المطلوب]</span>. اقترح أيضًا نصًا قصيرًا للغلاف وتعليقًا للمنشور.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Write a <span class="ph">[DURATION_SECONDS]</span>-second TikTok/Reels script about <span class="ph">[VIDEO_IDEA]</span> for <span class="ph">[BUSINESS_NAME]</span>. Write the spoken lines in Saudi dialect. Format as a three-column table: second, on-screen (shot and text overlay), and voice-over. The first 3 seconds must hook the viewer. End with a call to <span class="ph">[DESIRED_ACTION]</span>. Also suggest short cover text and a caption.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>صوّر بإضاءة طبيعية قرب نافذة، ولا تحاول قراءة السيناريو حرفيًا — استخدمه كدليل فقط.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Film in natural light near a window, and don't read the script word for word — use it as a guide.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">05</div>
+    <div class="titles">
+      <h3>أفكار قصص سناب شات ليوم كامل<span class="badge">المخرَج باللهجة السعودية · Saudi-dialect output</span></h3>
+      <div class="t-en" lang="en">A Day of Snapchat Stories</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عندما تريد إظهار الجانب الإنساني لمشروعك يوميًا.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When you want to show the human side of your business daily.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اقترح تسلسلًا من <span class="ph">[عدد القصص]</span> قصة سناب شات ليوم عمل واحد في <span class="ph">[نوع المشروع]</span> اسمه <span class="ph">[اسم المشروع]</span>. ابدأ من الصباح حتى الإغلاق. لكل قصة: ما يتم تصويره، نص قصير يُكتب على الشاشة باللهجة السعودية، وهل تحتوي على استفتاء أو سؤال للتفاعل. اجعل قصتين فقط ترويجيتين بشكل مباشر، والباقي يُظهر الكواليس والفريق وطريقة العمل. راعِ الخصوصية ولا تقترح تصوير العملاء.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Suggest a sequence of <span class="ph">[NUMBER_OF_STORIES]</span> Snapchat stories for one working day at <span class="ph">[BUSINESS_NAME]</span>, a <span class="ph">[BUSINESS_TYPE]</span>. Go from opening to closing. For each story: what to film, short on-screen text in Saudi dialect, and whether it includes a poll or question. Only two stories should be directly promotional; the rest show behind the scenes, the team and the process. Respect privacy and do not suggest filming customers.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>إن ظهر أشخاص في التصوير فاستأذنهم أولًا، خصوصًا في المحلات النسائية والعائلية.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>If people appear on camera, get their permission first — especially in family or women-focused venues.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">06</div>
+    <div class="titles">
+      <h3>إعادة تدوير منشور واحد لكل المنصات</h3>
+      <div class="t-en" lang="en">Repurpose One Post for Every Platform</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عندما يكون لديك محتوى جيد وتريد نشره في أكثر من مكان.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When you have one good piece of content and want to use it everywhere.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>هذا نص منشور ناجح لدي: <span class="ph">[ألصق النص هنا]</span>. حوّله إلى: (1) تعليق إنستغرام مع 6 وسوم، (2) تغريدة على إكس أقل من 260 حرفًا، (3) نص قصة سناب شات من 3 شرائح، (4) فكرة فيديو تيك توك من 20 ثانية، (5) رسالة واتساب قصيرة لقائمة العملاء الذين وافقوا على استلام الرسائل. حافظ على نفس الفكرة الأساسية، وغيّر الأسلوب ليناسب كل منصة.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Here is a post that performed well for me: <span class="ph">[PASTE_POST_HERE]</span>. Turn it into: (1) an Instagram caption with 6 hashtags, (2) an X post under 260 characters, (3) a 3-slide Snapchat story text, (4) a 20-second TikTok idea, (5) a short WhatsApp message for customers who opted in to receive messages. Keep the same core idea and adapt the style to each platform.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>لا ترسل رسائل واتساب تسويقية إلا لمن وافق على استلامها؛ هذا يحمي سمعتك ورقمك.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Only send marketing WhatsApp messages to people who agreed to receive them — it protects your reputation and your number.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">07</div>
+    <div class="titles">
+      <h3>فكرة تصميم لمنشور في Canva</h3>
+      <div class="t-en" lang="en">Canva Post Design Brief</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>قبل فتح Canva أو استخدام Magic Design.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>Before opening Canva or using Magic Design.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>أنا أصمم منشورًا في Canva لمشروع <span class="ph">[اسم المشروع]</span>. ألوان الهوية: <span class="ph">[الألوان]</span>. الرسالة: <span class="ph">[الرسالة الأساسية]</span>. اكتب لي: (1) عنوانًا رئيسيًا عربيًا لا يتجاوز 6 كلمات، (2) سطرًا فرعيًا، (3) نص زر أو دعوة للإجراء، (4) وصفًا للتخطيط (أين يوضع النص والصورة)، (5) وصفًا إنجليزيًا قصيرًا يمكنني لصقه في أداة توليد الصور أو Magic Design في Canva، مع مراعاة أن تكون الصور محتشمة ومناسبة للثقافة السعودية.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>I'm designing a post in Canva for <span class="ph">[BUSINESS_NAME]</span>. Brand colours: <span class="ph">[BRAND_COLOURS]</span>. Message: <span class="ph">[CORE_MESSAGE]</span>. Give me: (1) an Arabic headline of 6 words or fewer, (2) a sub-line, (3) button / call-to-action text, (4) a layout description (where text and image go), (5) a short English prompt I can paste into Canva's Magic Design or image generator, making sure imagery is modest and culturally appropriate for Saudi Arabia.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>تأكد في Canva من أن الخط العربي المختار يدعم الحروف المتصلة، وراجع النص العربي بعد التوليد لأن بعض الأدوات تفصل الحروف.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>In Canva, check that your chosen Arabic font connects letters properly, and review Arabic text after generation — some tools break the letters apart.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">08</div>
+    <div class="titles">
+      <h3>نص إعلان ممول</h3>
+      <div class="t-en" lang="en">Paid Ad Copy</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>قبل إطلاق إعلان على سناب شات أو إنستغرام أو إكس.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>Before launching a paid ad on Snapchat, Instagram or X.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب 5 نسخ إعلانية قصيرة لإعلان ممول على <span class="ph">[المنصة]</span> لمنتج <span class="ph">[المنتج أو الخدمة]</span> من <span class="ph">[اسم المشروع]</span>. الجمهور المستهدف: <span class="ph">[وصف الجمهور]</span> في <span class="ph">[المدينة أو المنطقة]</span>. الميزة الأهم: <span class="ph">[الميزة]</span>. العرض إن وُجد: <span class="ph">[العرض]</span>. لكل نسخة: عنوان أقل من 30 حرفًا، ونص أقل من 90 حرفًا، ونص زر. اجعل كل نسخة تعتمد زاوية مختلفة: السعر، الجودة، السرعة، التجربة، الثقة. لا تستخدم ادعاءات مبالغًا فيها مثل «الأفضل في المملكة».</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Write 5 short ad variations for a paid ad on <span class="ph">[PLATFORM]</span> for <span class="ph">[PRODUCT_OR_SERVICE]</span> from <span class="ph">[BUSINESS_NAME]</span>. Target audience: <span class="ph">[AUDIENCE_DESCRIPTION]</span> in <span class="ph">[CITY_OR_REGION]</span>. Key benefit: <span class="ph">[KEY_BENEFIT]</span>. Offer, if any: <span class="ph">[OFFER]</span>. For each: a headline under 30 characters, body text under 90 characters, and button text. Give each version a different angle: price, quality, speed, experience, trust. Avoid exaggerated claims such as "the best in the Kingdom".</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>شغّل نسختين أو ثلاثًا بميزانية صغيرة أولًا، ثم ضع ميزانيتك على النسخة التي تحقق نتيجة أفضل فعليًا.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Run two or three versions on a small budget first, then put your money behind the one that actually performs better.</div>
+  </div>
+</article>
+</section>
+<section class="page" id="sec-store">
+  <header class="sec-head">
+    <div class="num"><span>القسم 2</span> · <span lang="en" dir="ltr">SECTION 2</span></div>
+    <h2>أوصاف منتجات المتاجر الإلكترونية</h2>
+    <div class="en-title" lang="en">Online Store Product Descriptions</div>
+    <div class="intro">أوامر لمتاجر سلة وزد وشوبيفاي: أوصاف تبيع، وعناوين واضحة، وصفحات تجيب عن أسئلة العميل.<div class="en" lang="en">Prompts for Salla, Zid and Shopify stores: descriptions that sell, clear titles, and pages that answer customer questions.</div></div>
+  </header>
+  
+<article class="card">
+  <div class="card-head">
+    <div class="id">09</div>
+    <div class="titles">
+      <h3>وصف منتج كامل</h3>
+      <div class="t-en" lang="en">Full Product Description</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عند إضافة منتج جديد إلى متجرك.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When adding a new product to your store.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>أنت كاتب محتوى متخصص في التجارة الإلكترونية في السعودية. اكتب وصفًا لمنتج <span class="ph">[اسم المنتج]</span> لمتجري على <span class="ph">[سلة / زد / شوبيفاي]</span>. المعلومات: <span class="ph">[المواصفات: المقاس، الخامة، اللون، الوزن...]</span>. الجمهور: <span class="ph">[وصف الجمهور]</span>. التنسيق: فقرة افتتاحية من سطرين عن الفائدة، ثم 5 نقاط للمميزات، ثم قسم «محتويات العلبة»، ثم قسم «طريقة الاستخدام أو العناية». لا تضف أي مواصفات غير موجودة في المعلومات التي أعطيتك إياها.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>You are an e-commerce copywriter for the Saudi market. Write a description for <span class="ph">[PRODUCT_NAME]</span> for my <span class="ph">[Salla / Zid / Shopify]</span> store. Details: <span class="ph">[SPECS: size, material, colour, weight...]</span>. Audience: <span class="ph">[AUDIENCE_DESCRIPTION]</span>. Format: a two-line opening about the benefit, then 5 feature bullets, then a "What's in the box" section, then a "How to use / care" section. Do not add any specification that is not in the details I gave you.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>الجملة الأخيرة في الأمر («لا تضف مواصفات») مهمة جدًا؛ أدوات الذكاء الاصطناعي تميل لاختراع تفاصيل.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>The last sentence ("do not add specs") matters — AI tools tend to invent details otherwise.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">10</div>
+    <div class="titles">
+      <h3>عنوان منتج مناسب للبحث</h3>
+      <div class="t-en" lang="en">Search-Friendly Product Title</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عندما لا يظهر منتجك في نتائج البحث داخل المتجر أو في Google.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When your product isn't showing up in store or Google search.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اقترح 5 عناوين لمنتج <span class="ph">[اسم المنتج]</span> في متجر إلكتروني سعودي. كل عنوان لا يتجاوز 70 حرفًا، ويبدأ بالكلمة التي يبحث بها العميل غالبًا، ثم يضم أهم صفة (مثل <span class="ph">[الصفة: المقاس، اللون، الماركة]</span>). اكتب العناوين بالعربية، ثم اقترح لكل عنوان نسخة إنجليزية. وبعدها اقترح 10 كلمات بحث قد يكتبها العميل السعودي للوصول إلى هذا المنتج، بما فيها كلمات عامية شائعة.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Suggest 5 titles for <span class="ph">[PRODUCT_NAME]</span> in a Saudi online store. Each title is under 70 characters, starts with the word customers most likely search for, then includes the key attribute (e.g. <span class="ph">[ATTRIBUTE: size, colour, brand]</span>). Write the titles in Arabic, then give an English version of each. Then suggest 10 search terms a Saudi customer might type to find this product, including common colloquial words.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>قارن الكلمات المقترحة بما يكتبه العملاء فعلًا في خانة البحث بمتجرك إن كانت المنصة توفر هذا التقرير.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Compare the suggested keywords against what customers actually type in your store search, if your platform offers that report.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">11</div>
+    <div class="titles">
+      <h3>أسئلة شائعة لصفحة المنتج</h3>
+      <div class="t-en" lang="en">Product Page FAQ</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عندما تتكرر عليك نفس الأسئلة من العملاء.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When customers keep asking you the same questions.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب قسم «الأسئلة الشائعة» لصفحة منتج <span class="ph">[اسم المنتج]</span>. هذه معلومات صحيحة عن المنتج والمتجر: <span class="ph">[المعلومات: مدة التوصيل، سياسة الاسترجاع، طرق الدفع، الضمان]</span>. اكتب 8 أسئلة يطرحها العميل السعودي عادة قبل الشراء، وأجب عنها بإيجاز ووضوح بناءً على المعلومات فقط. إذا كان سؤال مهم لا تتوفر له معلومات، اكتب بجانبه <span class="ph">[يحتاج إجابة من صاحب المتجر]</span> بدل أن تخترع إجابة.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Write a FAQ section for the product page of <span class="ph">[PRODUCT_NAME]</span>. These are accurate facts about the product and store: <span class="ph">[FACTS: delivery time, return policy, payment methods, warranty]</span>. Write 8 questions Saudi customers usually ask before buying and answer them briefly, using only these facts. If an important question has no information, write <span class="ph">[NEEDS ANSWER FROM STORE OWNER]</span> instead of inventing one.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>ألصق رسائل العملاء الحقيقية (بعد حذف أسمائهم وأرقامهم) ليستخرج منها الأسئلة الأكثر تكرارًا.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Paste real customer messages (with names and numbers removed) so it can pull out the most frequent questions.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">12</div>
+    <div class="titles">
+      <h3>وصف مختصر للجوال</h3>
+      <div class="t-en" lang="en">Short Mobile Description</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>لأن أغلب عملائك يتصفحون من الجوال ولا يقرؤون النصوص الطويلة.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>Most shoppers browse on mobile and skip long text.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>لدي هذا الوصف الطويل لمنتج: <span class="ph">[ألصق الوصف]</span>. اختصره إلى نسخة للجوال لا تتجاوز 50 كلمة، تبدأ بأهم فائدة، وتتضمن 3 نقاط قصيرة جدًا بالرموز ✓، وتنتهي بسطر يشجع على الإضافة إلى السلة. لا تحذف أي معلومة مهمة عن المقاس أو الاستخدام.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Here is a long product description: <span class="ph">[PASTE_DESCRIPTION]</span>. Shorten it into a mobile version of 50 words or fewer that opens with the main benefit, includes 3 very short ✓ bullets, and ends with a line encouraging add-to-cart. Do not remove any important sizing or usage information.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>ضع النسخة المختصرة في أعلى الصفحة، واترك الوصف الكامل تحتها لمن يريد التفاصيل.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Put the short version at the top of the page and keep the full description below it for those who want detail.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">13</div>
+    <div class="titles">
+      <h3>وصف مجموعة أو تصنيف</h3>
+      <div class="t-en" lang="en">Collection / Category Description</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عند إنشاء تصنيف جديد في المتجر مثل «هدايا» أو «عطور».</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When creating a new store category, like "Gifts" or "Perfumes".</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب نصًا تعريفيًا لصفحة تصنيف بعنوان <span class="ph">[اسم التصنيف]</span> في متجر <span class="ph">[اسم المتجر]</span>. المنتجات في التصنيف: <span class="ph">[أمثلة على المنتجات]</span>. اكتب فقرة من 60–80 كلمة تساعد العميل على الاختيار وتذكر لمن يناسب هذا التصنيف، ثم 3 عناوين فرعية قصيرة لتقسيم المنتجات (مثل حسب السعر أو المناسبة). اكتب أيضًا وصف ميتا (Meta Description) أقل من 155 حرفًا بالعربية وآخر بالإنجليزية.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Write intro text for a category page called <span class="ph">[CATEGORY_NAME]</span> in <span class="ph">[STORE_NAME]</span>. Products in it: <span class="ph">[EXAMPLE_PRODUCTS]</span>. Write a 60–80 word paragraph that helps customers choose and says who the category suits, then 3 short sub-headings to group products (e.g. by price or occasion). Also write a meta description under 155 characters in Arabic and another in English.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>وصف الميتا هو ما يظهر تحت رابطك في نتائج Google؛ اجعله يجيب عن «لماذا أضغط هنا؟».</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>The meta description is what appears under your link in Google results — make it answer "why should I click?"</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">14</div>
+    <div class="titles">
+      <h3>مقارنة بين منتجين</h3>
+      <div class="t-en" lang="en">Two-Product Comparison</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عندما يتردد العميل بين منتجين في متجرك.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When customers hesitate between two of your products.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>أعدّ جدول مقارنة واضحًا بين <span class="ph">[المنتج الأول]</span> و<span class="ph">[المنتج الثاني]</span> من متجري. المعلومات: <span class="ph">[مواصفات وأسعار كل منتج]</span>. الجدول يتضمن: السعر، أهم 4 مواصفات، ولمن يناسب كل منتج. بعد الجدول اكتب فقرة قصيرة بعنوان «أيهما تختار؟» تساعد العميل على القرار حسب احتياجه، بدون التقليل من أي منتج.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Create a clear comparison table between <span class="ph">[PRODUCT_1]</span> and <span class="ph">[PRODUCT_2]</span> from my store. Details: <span class="ph">[SPECS_AND_PRICES_OF_EACH]</span>. The table includes: price, the 4 most important specs, and who each product suits. After the table, write a short paragraph titled "Which one should you choose?" that helps the customer decide based on their need, without putting either product down.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>يمكنك نشر نفس الجدول كصورة في القصص أو الرد به على العملاء في واتساب.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>You can also post the same table as an image in stories or send it to customers on WhatsApp.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">15</div>
+    <div class="titles">
+      <h3>صفحة سياسة الشحن والاسترجاع</h3>
+      <div class="t-en" lang="en">Shipping &amp; Returns Policy Page</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عند إطلاق المتجر أو تحديث السياسات.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When launching your store or updating policies.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>صغ صفحة «سياسة الشحن والاسترجاع» لمتجر <span class="ph">[اسم المتجر]</span> بلغة بسيطة وودودة. هذه هي القواعد التي قررتها: <span class="ph">[مدة الشحن لكل مدينة، تكلفة الشحن، مدة الاسترجاع، شروط الاسترجاع، طريقة استرداد المبلغ]</span>. نظّم الصفحة بعناوين فرعية وأسئلة وأجوبة قصيرة. لا تضف أي شرط لم أذكره. في النهاية أضف تنبيهًا لي (وليس للعميل) بالنقاط التي يُنصح بمراجعتها مع الأنظمة السعودية للتجارة الإلكترونية وحماية المستهلك.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Draft a "Shipping &amp; Returns" page for <span class="ph">[STORE_NAME]</span> in simple, friendly language. These are the rules I decided: <span class="ph">[SHIPPING_TIME_PER_CITY, SHIPPING_COST, RETURN_WINDOW, RETURN_CONDITIONS, REFUND_METHOD]</span>. Organise it with sub-headings and short Q&amp;As. Do not add any condition I did not mention. At the end, add a note for me (not the customer) listing points I should check against Saudi e-commerce and consumer-protection regulations.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>هذا مسودة وليس استشارة قانونية؛ راجع نظام التجارة الإلكترونية ومتطلبات وزارة التجارة قبل النشر.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>This is a draft, not legal advice — check the Saudi E-Commerce Law and Ministry of Commerce requirements before publishing.</div>
+  </div>
+</article>
+</section>
+<section class="page" id="sec-whatsapp">
+  <header class="sec-head">
+    <div class="num"><span>القسم 3</span> · <span lang="en" dir="ltr">SECTION 3</span></div>
+    <h2>ردود خدمة العملاء عبر واتساب</h2>
+    <div class="en-title" lang="en">WhatsApp Customer Service Replies</div>
+    <div class="intro">ردود جاهزة ومهذبة لأكثر المواقف تكرارًا، يمكنك حفظها في «الردود السريعة» في واتساب للأعمال.<div class="en" lang="en">Polite, ready replies for the most common situations — save them as Quick Replies in WhatsApp Business.</div></div>
+  </header>
+  
+<article class="card">
+  <div class="card-head">
+    <div class="id">16</div>
+    <div class="titles">
+      <h3>مكتبة ردود سريعة<span class="badge">المخرَج باللهجة السعودية · Saudi-dialect output</span></h3>
+      <div class="t-en" lang="en">Quick Replies Library</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>مرة واحدة عند إعداد واتساب للأعمال.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>Once, when setting up WhatsApp Business.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>أنت مسؤول خدمة عملاء في <span class="ph">[نوع المشروع]</span> اسمه <span class="ph">[اسم المشروع]</span> في السعودية. اكتب 12 ردًا سريعًا قصيرًا باللهجة السعودية المهذبة لهذه المواقف: الترحيب، أوقات العمل، الموقع، طرق الدفع، الأسعار، مدة التوصيل، تأكيد الطلب، شكر بعد الشراء، الاعتذار عن التأخير، طلب الانتظار، تحويل لموظف آخر، إنهاء المحادثة. اقترح لكل رد اختصارًا (مثل /ترحيب). استخدم هذه المعلومات: <span class="ph">[أوقات العمل، الموقع، طرق الدفع، مدة التوصيل]</span>.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>You handle customer service for <span class="ph">[BUSINESS_NAME]</span>, a <span class="ph">[BUSINESS_TYPE]</span> in Saudi Arabia. Write 12 short, polite quick replies in Saudi dialect for: greeting, working hours, location, payment methods, prices, delivery time, order confirmation, post-purchase thanks, apology for delay, please-wait, handover to a colleague, closing the chat. Suggest a shortcut for each (e.g. /welcome). Use this information: <span class="ph">[WORKING_HOURS, LOCATION, PAYMENT_METHODS, DELIVERY_TIME]</span>.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>اجعل رسالة الترحيب تذكر أوقات الرد المتوقعة، فهذا يخفف الضغط عليك وعلى العميل.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Make your greeting message mention expected reply times — it reduces pressure on you and the customer.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">17</div>
+    <div class="titles">
+      <h3>الرد على عميل غاضب<span class="badge">المخرَج باللهجة السعودية · Saudi-dialect output</span></h3>
+      <div class="t-en" lang="en">Replying to an Angry Customer</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عندما تصلك رسالة شكوى حادة وتريد ردًا هادئًا ومحترفًا.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When you receive a heated complaint and need a calm, professional reply.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>وصلتني هذه الرسالة من عميل غاضب: <span class="ph">[ألصق رسالة العميل]</span>. ما حدث فعلًا من جهتنا: <span class="ph">[شرح مختصر للمشكلة]</span>. ما يمكننا تقديمه: <span class="ph">[الحل: استبدال، استرجاع، خصم، إعادة توصيل]</span>. اكتب ردًا باللهجة السعودية المهذبة: يبدأ بتفهّم شعوره دون جدال، ثم اعتذار صادق إن كان الخطأ منا، ثم الحل بخطوات واضحة، ثم موعد محدد للمتابعة. لا تتجاوز 80 كلمة، ولا تقدّم وعودًا غير الحل المذكور.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>I received this message from an angry customer: <span class="ph">[PASTE_CUSTOMER_MESSAGE]</span>. What actually happened on our side: <span class="ph">[SHORT_EXPLANATION]</span>. What we can offer: <span class="ph">[SOLUTION: replacement, refund, discount, re-delivery]</span>. Write a reply in polite Saudi dialect: start by acknowledging their feelings without arguing, then a sincere apology if we were at fault, then the solution in clear steps, then a specific follow-up time. Keep it under 80 words and make no promises beyond the stated solution.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>لا ترد وأنت منفعل. ولّد الرد، انتظر دقيقتين، اقرأه مرة أخرى ثم أرسله.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Don't reply while upset. Generate the reply, wait two minutes, re-read it, then send.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">18</div>
+    <div class="titles">
+      <h3>الرد على سؤال السعر (وش السعر؟)<span class="badge">المخرَج باللهجة السعودية · Saudi-dialect output</span></h3>
+      <div class="t-en" lang="en">Answering "How Much?"</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عندما يسأل العميل عن السعر فقط دون تفاصيل.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When a customer just asks the price without context.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب 3 ردود مختلفة باللهجة السعودية على عميل أرسل «بكم؟» أو «وش السعر؟» عن <span class="ph">[المنتج أو الخدمة]</span>. السعر: <span class="ph">[السعر أو نطاق الأسعار]</span>. كل رد يذكر السعر بوضوح، ثم يضيف ميزة واحدة تبرر القيمة، ثم يسأل سؤالًا واحدًا بسيطًا يساعد على إكمال البيع (مثل المقاس أو الموعد المناسب). لا تتجاوز 40 كلمة لكل رد.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Write 3 different replies in Saudi dialect to a customer who just sent "How much?" about <span class="ph">[PRODUCT_OR_SERVICE]</span>. Price: <span class="ph">[PRICE_OR_RANGE]</span>. Each reply states the price clearly, adds one benefit that justifies the value, then asks one simple question that moves the sale forward (e.g. size or preferred time). Max 40 words each.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>اذكر السعر مباشرة؛ إخفاء السعر وطلب «تواصل خاص» يجعل كثيرًا من العملاء يغادرون.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>State the price directly — hiding it behind "DM for price" makes many customers leave.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">19</div>
+    <div class="titles">
+      <h3>متابعة سلة متروكة أو طلب لم يكتمل<span class="badge">المخرَج باللهجة السعودية · Saudi-dialect output</span></h3>
+      <div class="t-en" lang="en">Following Up an Unfinished Order</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عندما يسأل العميل ثم يختفي، أو يترك منتجات في السلة.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When a customer asks then goes quiet, or leaves items in the cart.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب رسالتي متابعة لطيفتين باللهجة السعودية لعميل سأل عن <span class="ph">[المنتج]</span> قبل <span class="ph">[المدة]</span> ولم يكمل الطلب. الرسالة الأولى تُرسل بعد يوم: تذكير ودّي وسؤال إن كان لديه أي استفسار. الرسالة الثانية تُرسل بعد 3 أيام: تذكير أخير مع <span class="ph">[ميزة أو عرض إن وُجد]</span>. كل رسالة أقل من 35 كلمة. يجب أن تكون النبرة خدومة وغير ملحّة، وأن تتضمن طريقة سهلة لإيقاف الرسائل.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Write two gentle follow-up messages in Saudi dialect for a customer who asked about <span class="ph">[PRODUCT]</span> <span class="ph">[TIME_AGO]</span> and didn't complete the order. Message 1 (after one day): a friendly reminder asking if they have any questions. Message 2 (after 3 days): a final reminder with <span class="ph">[BENEFIT_OR_OFFER_IF_ANY]</span>. Each under 35 words. The tone should be helpful, not pushy, and include an easy way to opt out of further messages.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>توقف بعد رسالتين. الإلحاح الزائد يدفع العميل لحظر الرقم.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Stop after two messages — over-following-up gets your number blocked.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">20</div>
+    <div class="titles">
+      <h3>تحديث حالة الطلب والتأخير<span class="badge">المخرَج باللهجة السعودية · Saudi-dialect output</span></h3>
+      <div class="t-en" lang="en">Order Status &amp; Delay Update</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عندما يتأخر الطلب أو تريد إبلاغ العميل بخطوات الشحن.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When an order is delayed or you want to update the customer on shipping.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب 4 رسائل قصيرة لتحديث حالة الطلب لعملاء <span class="ph">[اسم المتجر]</span>: (1) تم استلام الطلب وجاري التجهيز، (2) تم الشحن مع رقم التتبع <span class="ph">[رقم التتبع]</span> ورابط <span class="ph">[رابط التتبع]</span>، (3) الطلب سيتأخر بسبب <span class="ph">[سبب التأخير]</span> والموعد الجديد <span class="ph">[الموعد]</span>، (4) تم التوصيل مع طلب لطيف للتقييم. اكتبها باللهجة السعودية، واجعل رسالة التأخير صادقة وتعتذر بوضوح دون إلقاء اللوم على العميل.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Write 4 short order-status messages for customers of <span class="ph">[STORE_NAME]</span>: (1) order received and being prepared, (2) shipped, with tracking number <span class="ph">[TRACKING_NUMBER]</span> and link <span class="ph">[TRACKING_LINK]</span>, (3) the order will be late because of <span class="ph">[DELAY_REASON]</span>, new date <span class="ph">[NEW_DATE]</span>, (4) delivered, with a gentle request for a review. Write them in Saudi dialect, and make the delay message honest with a clear apology, never blaming the customer.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>أبلغ العميل بالتأخير قبل أن يسألك هو؛ هذا وحده يقلل الشكاوى كثيرًا.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Tell the customer about a delay before they ask — that alone prevents a lot of complaints.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">21</div>
+    <div class="titles">
+      <h3>الرد على طلب خصم<span class="badge">المخرَج باللهجة السعودية · Saudi-dialect output</span></h3>
+      <div class="t-en" lang="en">Responding to a Discount Request</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عندما يطلب العميل «آخر سعر» أو خصمًا.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When a customer asks for "your best price" or a discount.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>عميل يطلب خصمًا على <span class="ph">[المنتج أو الخدمة]</span> بسعر <span class="ph">[السعر]</span>. سياستي: <span class="ph">[لا خصم / خصم محدود بنسبة كذا / هدية بدل الخصم / خصم للكميات]</span>. اكتب ردين مهذبين باللهجة السعودية: الأول يرفض الخصم بلطف ويوضح القيمة، والثاني يقدّم البديل المسموح به حسب سياستي. حافظ على علاقة جيدة مع العميل ولا تجعله يشعر بالحرج.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>A customer is asking for a discount on <span class="ph">[PRODUCT_OR_SERVICE]</span> priced at <span class="ph">[PRICE]</span>. My policy: <span class="ph">[no discount / limited discount of X% / free gift instead / bulk discount]</span>. Write two polite replies in Saudi dialect: the first declines the discount kindly and explains the value; the second offers the alternative my policy allows. Keep the relationship warm and don't make the customer feel embarrassed.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>ثبّت سياسة الخصم مسبقًا واكتبها؛ التفاوض المختلف مع كل عميل يربك أسعارك.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Set your discount policy in advance and write it down — negotiating differently with each customer muddles your pricing.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">22</div>
+    <div class="titles">
+      <h3>رسالة شكر وطلب تقييم<span class="badge">المخرَج باللهجة السعودية · Saudi-dialect output</span></h3>
+      <div class="t-en" lang="en">Thank-You &amp; Review Request</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>بعد يوم أو يومين من استلام العميل لطلبه.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>One or two days after the customer receives their order.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب رسالة شكر قصيرة باللهجة السعودية لعميل اشترى <span class="ph">[المنتج]</span> من <span class="ph">[اسم المشروع]</span>. اسأله إن كان كل شيء على ما يرام، واطلب منه بلطف — دون أي ضغط ودون مقابل مشروط بتقييم إيجابي — أن يشاركنا رأيه عبر <span class="ph">[رابط التقييم: Google أو المتجر]</span>. أقل من 45 كلمة. اكتب نسخة ثانية رسمية أكثر للشركات.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Write a short thank-you message in Saudi dialect for a customer who bought <span class="ph">[PRODUCT]</span> from <span class="ph">[BUSINESS_NAME]</span>. Ask if everything is fine and kindly invite them — with no pressure and no reward conditional on a positive review — to share their feedback via <span class="ph">[REVIEW_LINK: Google or store]</span>. Under 45 words. Write a second, more formal version for B2B clients.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>لا تقدّم هدية مقابل «تقييم 5 نجوم» فقط؛ هذا يخالف سياسات Google ويفقدك المصداقية.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Never offer a gift in exchange for "5-star reviews" only — it breaks Google's policies and costs you credibility.</div>
+  </div>
+</article>
+</section>
+<section class="page" id="sec-seasonal">
+  <header class="sec-head">
+    <div class="num"><span>القسم 4</span> · <span lang="en" dir="ltr">SECTION 4</span></div>
+    <h2>الحملات الموسمية</h2>
+    <div class="en-title" lang="en">Seasonal Campaigns</div>
+    <div class="intro">رمضان، العيدين، اليوم الوطني، يوم التأسيس، الجمعة البيضاء، والعودة للمدارس. تأكد دائمًا من التواريخ الرسمية لكل سنة.<div class="en" lang="en">Ramadan, both Eids, National Day, Founding Day, White Friday and Back to School. Always confirm each year's official dates.</div></div>
+  </header>
+  
+<article class="card">
+  <div class="card-head">
+    <div class="id">23</div>
+    <div class="titles">
+      <h3>تقويم المواسم السنوي</h3>
+      <div class="t-en" lang="en">Annual Seasons Calendar</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>في بداية السنة لتخطيط حملاتك مسبقًا.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>At the start of the year to plan campaigns early.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>أعدّ تقويمًا تسويقيًا لعام <span class="ph">[السنة]</span> لمشروع <span class="ph">[نوع المشروع]</span> في السعودية يشمل: يوم التأسيس (22 فبراير)، شهر رمضان، عيد الفطر، عيد الأضحى، العودة للمدارس، اليوم الوطني السعودي (23 سبتمبر)، الجمعة البيضاء، ونهاية السنة. لكل مناسبة: متى أبدأ التحضير، متى أبدأ النشر، فكرة حملة مناسبة لمشروعي، ونوع العرض المقترح. للمناسبات الهجرية اكتب <span class="ph">[التاريخ التقريبي — يُؤكَّد لاحقًا]</span> بدل تحديد تاريخ ميلادي دقيق.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Build a <span class="ph">[YEAR]</span> marketing calendar for a <span class="ph">[BUSINESS_TYPE]</span> in Saudi Arabia covering: Founding Day (22 February), Ramadan, Eid al-Fitr, Eid al-Adha, Back to School, Saudi National Day (23 September), White Friday, and year-end. For each occasion: when to start preparing, when to start posting, a campaign idea suited to my business, and a suggested offer type. For Hijri occasions, write <span class="ph">[APPROXIMATE DATE — TO BE CONFIRMED]</span> instead of a precise Gregorian date.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>المناسبات الهجرية تتقدم نحو 11 يومًا كل سنة ميلادية؛ تحقق من التقويم الرسمي (أم القرى) قبل التخطيط.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Hijri occasions move about 11 days earlier each Gregorian year — check the official Umm al-Qura calendar before planning.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">24</div>
+    <div class="titles">
+      <h3>حملة رمضان</h3>
+      <div class="t-en" lang="en">Ramadan Campaign</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>قبل رمضان بأربعة إلى ستة أسابيع.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>Four to six weeks before Ramadan.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>صمّم حملة رمضانية لمشروع <span class="ph">[اسم المشروع]</span> الذي يقدّم <span class="ph">[المنتج أو الخدمة]</span>. راعِ أن أوقات النشاط والتسوق تتغير في رمضان (بعد الإفطار وفي الليل). أريد: (1) فكرة الحملة واسمها، (2) 4 مراحل: قبل رمضان، العشر الأوائل، منتصف الشهر، العشر الأواخر واستعداد العيد، (3) 3 أفكار منشورات لكل مرحلة، (4) أفضل أوقات النشر المقترحة. النبرة روحانية ودافئة بعيدًا عن المبالغة التجارية، ودون استخدام الآيات القرآنية في الإعلانات.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Design a Ramadan campaign for <span class="ph">[BUSINESS_NAME]</span>, which offers <span class="ph">[PRODUCT_OR_SERVICE]</span>. Consider that activity and shopping times shift during Ramadan (after iftar and late at night). I want: (1) a campaign concept and name, (2) 4 phases: pre-Ramadan, first ten days, mid-month, last ten days and Eid preparation, (3) 3 post ideas per phase, (4) suggested best posting times. The tone should be warm and spiritual without heavy commercialism, and must not use Qur'anic verses in advertising.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>اختبر أوقات النشر بنفسك خلال الأسبوع الأول، ثم عدّل الخطة بناءً على تفاعل جمهورك الفعلي.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Test posting times yourself during the first week, then adjust based on your audience's actual engagement.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">25</div>
+    <div class="titles">
+      <h3>تهنئة وعروض العيد<span class="badge">المخرَج باللهجة السعودية · Saudi-dialect output</span></h3>
+      <div class="t-en" lang="en">Eid Greetings &amp; Offers</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>قبل عيد الفطر أو عيد الأضحى بأسبوعين.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>Two weeks before Eid al-Fitr or Eid al-Adha.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب لمشروع <span class="ph">[اسم المشروع]</span> بمناسبة <span class="ph">[عيد الفطر / عيد الأضحى]</span>: (1) 3 نصوص تهنئة قصيرة للمنشورات، واحدة رسمية وواحدة ودّية باللهجة السعودية وواحدة للعملاء من الشركات، (2) إعلانًا عن عرض العيد: <span class="ph">[تفاصيل العرض ومدته]</span>، (3) رسالة واتساب للعملاء المشتركين، (4) نصًا لإعلان أوقات العمل في العيد: <span class="ph">[أوقات العمل]</span>. استخدم عبارات تهنئة سعودية متداولة مثل «عساكم من عوّاده».</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>For <span class="ph">[BUSINESS_NAME]</span>, on the occasion of <span class="ph">[Eid al-Fitr / Eid al-Adha]</span>, write: (1) 3 short greeting texts for posts — one formal, one friendly in Saudi dialect, one for business clients, (2) an announcement of the Eid offer: <span class="ph">[OFFER_DETAILS_AND_DURATION]</span>, (3) a WhatsApp message for opted-in customers, (4) a notice of Eid working hours: <span class="ph">[WORKING_HOURS]</span>. Use common Saudi Eid greetings such as "عساكم من عوّاده".</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>جهّز منشور أوقات العمل مبكرًا وثبّته في الحساب؛ هو أكثر ما يسأل عنه العملاء في العيد.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Prepare the working-hours post early and pin it — it's what customers ask about most during Eid.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">26</div>
+    <div class="titles">
+      <h3>اليوم الوطني السعودي (23 سبتمبر)</h3>
+      <div class="t-en" lang="en">Saudi National Day (23 Sept)</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>قبل اليوم الوطني بثلاثة أسابيع.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>Three weeks before National Day.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>أنشئ حملة لليوم الوطني السعودي (23 سبتمبر) لمشروع <span class="ph">[اسم المشروع]</span>. أريد: (1) 5 أفكار محتوى تعبّر عن الفخر والانتماء بطريقة مرتبطة بمجال <span class="ph">[المجال]</span>، (2) 3 نصوص قصيرة للمنشورات، (3) فكرة عرض مناسبة: <span class="ph">[نوع العرض]</span>، (4) ملاحظات حول الاستخدام الصحيح للهوية الوطنية. التزم بالذوق العام، ولا تقترح أي استخدام للعلم السعودي في منتجات أو أماكن لا تليق بمكانته (لأنه يحمل الشهادتين)، ولا تستخدم شعارات رسمية دون إذن.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Create a Saudi National Day (23 September) campaign for <span class="ph">[BUSINESS_NAME]</span>. I want: (1) 5 content ideas expressing pride and belonging in a way linked to <span class="ph">[INDUSTRY]</span>, (2) 3 short post texts, (3) a suitable offer idea: <span class="ph">[OFFER_TYPE]</span>, (4) notes on correct use of national identity. Keep it respectful; do not suggest using the Saudi flag on products or in places unbefitting its status (it carries the Shahada), and do not use official logos without permission.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>إذا أعلنت هوية بصرية رسمية لليوم الوطني لهذا العام، فراجع دليل استخدامها المنشور من الجهة المعنية قبل التصميم.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>If an official National Day visual identity is released for the year, review its published usage guide before designing.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">27</div>
+    <div class="titles">
+      <h3>يوم التأسيس (22 فبراير)</h3>
+      <div class="t-en" lang="en">Founding Day (22 Feb)</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>قبل يوم التأسيس بثلاثة أسابيع.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>Three weeks before Founding Day.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب حملة ليوم التأسيس السعودي (22 فبراير) لمشروع <span class="ph">[اسم المشروع]</span> في مجال <span class="ph">[المجال]</span>. يوم التأسيس يحتفي بجذور الدولة السعودية وتاريخها وتراثها. أريد: (1) 4 أفكار محتوى تربط مشروعي بالتراث السعودي (مثل الأزياء التقليدية، القهوة، العمارة النجدية، الحِرف)، (2) 3 نصوص منشورات، (3) فكرة عرض أو منتج خاص بالمناسبة. اكتب ملاحظة إن كان في المحتوى معلومة تاريخية يجب أن أتحقق منها من مصدر رسمي.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Write a Saudi Founding Day (22 February) campaign for <span class="ph">[BUSINESS_NAME]</span> in <span class="ph">[INDUSTRY]</span>. Founding Day celebrates the roots, history and heritage of the Saudi state. I want: (1) 4 content ideas linking my business to Saudi heritage (e.g. traditional dress, coffee, Najdi architecture, crafts), (2) 3 post texts, (3) an offer or special product idea for the occasion. Flag any historical fact in the content that I should verify from an official source.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>لا تخلط بين يوم التأسيس واليوم الوطني؛ لكلٍّ منهما معنى مختلف، والعملاء يلاحظون ذلك.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Don't confuse Founding Day with National Day — they mean different things, and customers notice.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">28</div>
+    <div class="titles">
+      <h3>الجمعة البيضاء</h3>
+      <div class="t-en" lang="en">White Friday</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>قبل موسم الجمعة البيضاء (نوفمبر عادة) بشهر.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>A month before the White Friday season (usually November).</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>خطط لعرض «الجمعة البيضاء» لمتجر <span class="ph">[اسم المتجر]</span>. المنتجات المشاركة: <span class="ph">[المنتجات]</span>، وهامش الربح التقريبي لكل منتج: <span class="ph">[الهامش]</span>. أريد: (1) 3 أنواع عروض مقترحة مع حساب بسيط يوضح أثر كل عرض على الربح، (2) جدولًا زمنيًا: قبل الأسبوع، يوم العرض، وبعده، (3) نصوص إعلان قصيرة، (4) قائمة تحقق للمخزون والشحن وخدمة العملاء. الأسعار قبل الخصم يجب أن تكون حقيقية، ولا تقترح رفع السعر ثم خصمه.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Plan a White Friday offer for <span class="ph">[STORE_NAME]</span>. Participating products: <span class="ph">[PRODUCTS]</span>, approximate margin per product: <span class="ph">[MARGIN]</span>. I want: (1) 3 offer types with a simple calculation of each offer's effect on profit, (2) a timeline: week before, offer day, after, (3) short ad copy, (4) a checklist for stock, shipping and customer service. Pre-discount prices must be genuine; do not suggest raising prices and then discounting them.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>تحقق من الحساب بنفسك؛ خصم 30% على منتج بهامش 35% يترك لك ربحًا ضئيلًا جدًا بعد الشحن.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Check the maths yourself — a 30% discount on a product with a 35% margin leaves very little after shipping.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">29</div>
+    <div class="titles">
+      <h3>العودة للمدارس</h3>
+      <div class="t-en" lang="en">Back to School</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>قبل بداية العام الدراسي بثلاثة أسابيع.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>Three weeks before the school year starts.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب حملة «العودة للمدارس» لمشروع <span class="ph">[اسم المشروع]</span> الذي يقدّم <span class="ph">[المنتج أو الخدمة]</span>. الجمهور الأساسي: أولياء الأمور في <span class="ph">[المدينة]</span>. أريد: (1) زاوية الحملة التي تخاطب احتياج الأهل (التنظيم، الوقت، الميزانية)، (2) 5 أفكار منشورات، (3) فكرة باقة أو حزمة منتجات، (4) رسالة واتساب قصيرة. تحقق من موعد بداية الدراسة في التقويم الدراسي الرسمي واكتب <span class="ph">[موعد بدء الدراسة]</span> كمتغير.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Write a Back to School campaign for <span class="ph">[BUSINESS_NAME]</span>, which offers <span class="ph">[PRODUCT_OR_SERVICE]</span>. Main audience: parents in <span class="ph">[CITY]</span>. I want: (1) a campaign angle addressing parents' needs (organisation, time, budget), (2) 5 post ideas, (3) a bundle idea, (4) a short WhatsApp message. Use <span class="ph">[SCHOOL_START_DATE]</span> as a variable — I'll confirm it from the official academic calendar.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>حتى لو لم يكن مشروعك تعليميًا، الأهالي يبحثون عن ما يوفّر وقتهم في هذا الموسم.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Even if your business isn't education-related, parents look for anything that saves them time this season.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">30</div>
+    <div class="titles">
+      <h3>تهنئة ومحتوى لمناسبة خاصة<span class="badge">المخرَج باللهجة السعودية · Saudi-dialect output</span></h3>
+      <div class="t-en" lang="en">Greeting for Any Occasion</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>لأي مناسبة أخرى: افتتاح فرع، ذكرى تأسيس المشروع، موسم سياحي محلي.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>Any other occasion: branch opening, business anniversary, local tourism season.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب 3 منشورات لمشروع <span class="ph">[اسم المشروع]</span> بمناسبة <span class="ph">[المناسبة]</span> التي تصادف <span class="ph">[التاريخ]</span>. المنشور الأول: إعلان أو تهنئة. الثاني: قصة قصيرة عن المشروع أو الفريق مرتبطة بالمناسبة. الثالث: شكر للعملاء مع <span class="ph">[العرض إن وُجد]</span>. اكتب باللهجة السعودية الودّية. اجعل النص صادقًا ولا تذكر أرقام مبيعات أو عملاء غير موجودة في هذه المعلومات: <span class="ph">[معلومات حقيقية عن المشروع]</span>.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Write 3 posts for <span class="ph">[BUSINESS_NAME]</span> for <span class="ph">[OCCASION]</span> on <span class="ph">[DATE]</span>. Post 1: announcement or greeting. Post 2: a short story about the business or team tied to the occasion. Post 3: thanks to customers with <span class="ph">[OFFER_IF_ANY]</span>. Write in friendly Saudi dialect. Keep it genuine and do not mention sales or customer numbers that aren't in this information: <span class="ph">[REAL_FACTS_ABOUT_THE_BUSINESS]</span>.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>القصص الحقيقية عن بدايتك وفريقك تتفاعل معها الناس أكثر من العروض.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Real stories about how you started and your team often get more engagement than offers.</div>
+  </div>
+</article>
+</section>
+<section class="page" id="sec-offers">
+  <header class="sec-head">
+    <div class="num"><span>القسم 5</span> · <span lang="en" dir="ltr">SECTION 5</span></div>
+    <h2>العروض وصفحات الأسعار</h2>
+    <div class="en-title" lang="en">Offers &amp; Pricing Pages</div>
+    <div class="intro">أوامر لصياغة الباقات وصفحات الأسعار وصفحات الهبوط بوضوح وصدق.<div class="en" lang="en">Prompts to structure packages, pricing pages and landing pages clearly and honestly.</div></div>
+  </header>
+  
+<article class="card">
+  <div class="card-head">
+    <div class="id">31</div>
+    <div class="titles">
+      <h3>تصميم باقات الأسعار</h3>
+      <div class="t-en" lang="en">Designing Pricing Tiers</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عندما تريد تحويل خدمتك إلى باقات واضحة.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When you want to turn your service into clear packages.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>أنا <span class="ph">[المهنة: مصمم، مستشار، مدرب...]</span> أقدم خدمة <span class="ph">[الخدمة]</span> في السعودية. تكلفتي التقريبية لكل عميل: <span class="ph">[التكلفة]</span>، والوقت الذي يستغرقه العمل: <span class="ph">[الوقت]</span>. اقترح 3 باقات (أساسية، متقدمة، شاملة) مع: اسم لكل باقة، ما تتضمنه، ما لا تتضمنه، ولمن تناسب. لا تحدد أسعارًا نهائية؛ بل اقترح طريقة حساب السعر لكل باقة بناءً على التكلفة والوقت، واترك السعر كـ <span class="ph">[السعر]</span>.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>I'm a <span class="ph">[PROFESSION: designer, consultant, coach...]</span> offering <span class="ph">[SERVICE]</span> in Saudi Arabia. My approximate cost per client: <span class="ph">[COST]</span>; time the work takes: <span class="ph">[TIME]</span>. Propose 3 tiers (basic, advanced, complete) with: a name, what's included, what's not included, and who it suits. Don't set final prices; suggest a pricing method for each tier based on cost and time, and leave the price as <span class="ph">[PRICE]</span>.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>الباقة الوسطى غالبًا هي التي تريد أن يختارها أغلب العملاء؛ اجعل قيمتها واضحة مقارنة بالأخريين.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>The middle tier is usually the one you want most clients to pick — make its value clear compared to the other two.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">32</div>
+    <div class="titles">
+      <h3>نص صفحة الأسعار</h3>
+      <div class="t-en" lang="en">Pricing Page Copy</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>بعد تحديد الباقات، لكتابة صفحتها في موقعك أو متجرك.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>After defining tiers, to write the page on your site or store.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب نص صفحة أسعار لـ <span class="ph">[اسم المشروع]</span> بناءً على هذه الباقات: <span class="ph">[ألصق تفاصيل الباقات والأسعار]</span>. التنسيق: عنوان رئيسي، سطر فرعي، بطاقة لكل باقة (اسم، سعر، 4–6 نقاط، نص زر)، ثم قسم أسئلة شائعة من 5 أسئلة عن الدفع والإلغاء والتعديلات. اذكر بوضوح هل الأسعار شاملة ضريبة القيمة المضافة أم لا حسب ما يلي: <span class="ph">[شاملة / غير شاملة]</span>. لا تستخدم عبارات استعجال مصطنعة.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Write pricing-page copy for <span class="ph">[BUSINESS_NAME]</span> based on these tiers: <span class="ph">[PASTE_TIER_DETAILS_AND_PRICES]</span>. Format: headline, sub-line, a card per tier (name, price, 4–6 bullets, button text), then a 5-question FAQ about payment, cancellation and revisions. State clearly whether prices include VAT, as follows: <span class="ph">[INCLUSIVE / EXCLUSIVE]</span>. Don't use artificial urgency phrases.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>ضريبة القيمة المضافة في السعودية 15%؛ تأكد من متطلبات العرض والفوترة من هيئة الزكاة والضريبة والجمارك إذا كنت مسجلًا.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Saudi VAT is 15% — if you're registered, confirm display and invoicing requirements with ZATCA.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">33</div>
+    <div class="titles">
+      <h3>عرض سعر رسمي لعميل</h3>
+      <div class="t-en" lang="en">Formal Quotation for a Client</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عندما يطلب منك عميل (شركة غالبًا) عرض سعر مكتوبًا.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When a client (often a company) asks for a written quote.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب عرض سعر رسميًا باللغة العربية الفصحى من <span class="ph">[اسم المشروع]</span> إلى <span class="ph">[اسم العميل]</span> لخدمة <span class="ph">[الخدمة]</span>. التفاصيل: <span class="ph">[نطاق العمل، المخرجات، المدة، السعر، طريقة الدفع، صلاحية العرض]</span>. التنسيق: مقدمة قصيرة، فهمنا لاحتياجكم، نطاق العمل بنقاط، الجدول الزمني، التكلفة وشروط الدفع، ما لا يشمله العرض، الخاتمة. أضف في النهاية نسخة إنجليزية مختصرة من نفس العرض.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Write a formal quotation in Arabic from <span class="ph">[BUSINESS_NAME]</span> to <span class="ph">[CLIENT_NAME]</span> for <span class="ph">[SERVICE]</span>. Details: <span class="ph">[SCOPE, DELIVERABLES, TIMELINE, PRICE, PAYMENT_TERMS, VALIDITY]</span>. Format: short intro, our understanding of your needs, scope as bullets, timeline, cost and payment terms, exclusions, closing. Add a short English version of the same quote at the end.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>قسم «ما لا يشمله العرض» يحميك من طلبات إضافية مجانية لاحقًا.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>The "exclusions" section protects you from free extra requests later.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">34</div>
+    <div class="titles">
+      <h3>صفحة هبوط لعرض محدد</h3>
+      <div class="t-en" lang="en">Landing Page for a Single Offer</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عند إطلاق منتج أو خدمة أو دورة جديدة.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When launching a new product, service or course.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب نص صفحة هبوط لعرض <span class="ph">[اسم العرض]</span> من <span class="ph">[اسم المشروع]</span>. الجمهور: <span class="ph">[وصف الجمهور]</span>. المشكلة التي يحلها: <span class="ph">[المشكلة]</span>. ما يحصل عليه العميل: <span class="ph">[المحتويات]</span>. السعر: <span class="ph">[السعر]</span>. الأقسام: عنوان رئيسي وسطر فرعي، المشكلة، الحل، ما ستحصل عليه، لمن هذا العرض ولمن لا يناسب، الأسئلة الشائعة، دعوة نهائية للإجراء. لا تكتب شهادات عملاء أو نتائج رقمية — اترك مكانًا بعنوان <span class="ph">[آراء العملاء الحقيقية]</span> إن وُجدت.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Write landing-page copy for <span class="ph">[OFFER_NAME]</span> from <span class="ph">[BUSINESS_NAME]</span>. Audience: <span class="ph">[AUDIENCE_DESCRIPTION]</span>. Problem it solves: <span class="ph">[PROBLEM]</span>. What the customer gets: <span class="ph">[CONTENTS]</span>. Price: <span class="ph">[PRICE]</span>. Sections: headline and sub-line, the problem, the solution, what you get, who it's for and who it's not for, FAQ, final call to action. Don't write testimonials or numeric results — leave a placeholder titled <span class="ph">[REAL CUSTOMER FEEDBACK]</span> if any exists.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>قسم «لمن لا يناسب» يزيد الثقة ويقلل طلبات الاسترجاع.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>A "who it's not for" section builds trust and reduces refund requests.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">35</div>
+    <div class="titles">
+      <h3>عرض حزمة (Bundle)</h3>
+      <div class="t-en" lang="en">Bundle Offer</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عندما تريد رفع متوسط قيمة الطلب.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When you want to raise average order value.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>لدي هذه المنتجات مع أسعارها وتكلفتها: <span class="ph">[قائمة المنتجات: السعر / التكلفة]</span>. اقترح 3 حزم منطقية يشتريها العميل معًا، ولكل حزمة: الاسم، المنتجات، سعر الحزمة المقترح، التوفير للعميل، وهامش الربح المتبقي لي. اعرض الحساب في جدول. ثم اكتب وصفًا تسويقيًا قصيرًا لكل حزمة.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Here are my products with prices and costs: <span class="ph">[PRODUCT_LIST: price / cost]</span>. Suggest 3 logical bundles customers would buy together. For each: name, products, suggested bundle price, customer saving, and my remaining margin. Show the maths in a table. Then write a short marketing description for each bundle.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>راجع كل رقم في الجدول بآلة حاسبة؛ النماذج اللغوية قد تخطئ في العمليات الحسابية.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Double-check every number with a calculator — language models can make arithmetic mistakes.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">36</div>
+    <div class="titles">
+      <h3>شرح سبب السعر<span class="badge">المخرَج باللهجة السعودية · Saudi-dialect output</span></h3>
+      <div class="t-en" lang="en">Explaining Your Price</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عندما يقارنك العملاء بمنافس أرخص.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When customers compare you to a cheaper competitor.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>عملاء كثيرون يقولون إن سعر <span class="ph">[المنتج أو الخدمة]</span> لدينا (<span class="ph">[السعر]</span>) أعلى من غيرنا. هذه أسباب حقيقية لفرق السعر: <span class="ph">[الأسباب: خامات، ضمان، خبرة، خدمة ما بعد البيع]</span>. اكتب: (1) فقرة قصيرة لصفحة المنتج تشرح القيمة دون مهاجمة المنافسين، (2) رد واتساب من 3 أسطر باللهجة السعودية، (3) منشور تعليمي يشرح للعملاء ما يجب أن ينتبهوا له عند الشراء في هذا المجال.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Many customers say our price for <span class="ph">[PRODUCT_OR_SERVICE]</span> (<span class="ph">[PRICE]</span>) is higher than others. These are the real reasons for the difference: <span class="ph">[REASONS: materials, warranty, expertise, after-sales service]</span>. Write: (1) a short product-page paragraph explaining the value without attacking competitors, (2) a 3-line WhatsApp reply in Saudi dialect, (3) an educational post explaining what customers should look for when buying in this field.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>المنشور التعليمي يقنع أكثر من الدفاع المباشر عن السعر.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>The educational post persuades better than directly defending your price.</div>
+  </div>
+</article>
+</section>
+<section class="page" id="sec-reviews">
+  <header class="sec-head">
+    <div class="num"><span>القسم 6</span> · <span lang="en" dir="ltr">SECTION 6</span></div>
+    <h2>خرائط Google والرد على التقييمات</h2>
+    <div class="en-title" lang="en">Google Maps &amp; Review Replies</div>
+    <div class="intro">حسّن ملف نشاطك التجاري على خرائط Google ورد على التقييمات باحترافية.<div class="en" lang="en">Improve your Google Business Profile and reply to reviews professionally.</div></div>
+  </header>
+  
+<article class="card">
+  <div class="card-head">
+    <div class="id">37</div>
+    <div class="titles">
+      <h3>وصف النشاط في ملف Google</h3>
+      <div class="t-en" lang="en">Google Business Profile Description</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عند إنشاء أو تحديث ملف نشاطك على Google.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When creating or updating your Google Business Profile.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب وصفًا لملف النشاط التجاري على Google لـ <span class="ph">[اسم المشروع]</span>، وهو <span class="ph">[نوع المشروع]</span> في حي <span class="ph">[الحي]</span> بمدينة <span class="ph">[المدينة]</span>. الخدمات: <span class="ph">[الخدمات]</span>. ما يميزنا: <span class="ph">[المميزات الحقيقية]</span>. الوصف لا يتجاوز 750 حرفًا، يبدأ بما يقدمه المشروع بوضوح، ويتضمن اسم المدينة والحي بشكل طبيعي. اكتب نسخة عربية وأخرى إنجليزية. لا تضع روابط أو أرقام هواتف أو عروضًا داخل الوصف.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Write a Google Business Profile description for <span class="ph">[BUSINESS_NAME]</span>, a <span class="ph">[BUSINESS_TYPE]</span> in <span class="ph">[DISTRICT]</span>, <span class="ph">[CITY]</span>. Services: <span class="ph">[SERVICES]</span>. What sets us apart: <span class="ph">[REAL_DIFFERENTIATORS]</span>. Max 750 characters, open with a clear statement of what the business offers, and naturally include the city and district. Write an Arabic and an English version. No links, phone numbers or promotions in the description.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>أضف صورًا حقيقية حديثة للمكان والمنتجات وحدّث أوقات العمل في المواسم؛ هذا أهم من الوصف نفسه.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Add recent real photos of the place and products, and update hours during holidays — this matters more than the description itself.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">38</div>
+    <div class="titles">
+      <h3>الرد على تقييم إيجابي</h3>
+      <div class="t-en" lang="en">Replying to a Positive Review</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عند وصول تقييم جيد.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When you get a good review.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب 3 ردود مختلفة على هذا التقييم الإيجابي في خرائط Google: <span class="ph">[ألصق التقييم]</span>. الردود قصيرة (2–3 أسطر)، شخصية، تذكر شيئًا محددًا ذكره العميل، وتتضمن دعوة لطيفة للعودة. لغة الرد: نفس لغة التقييم (عربية أو إنجليزية). وقّع باسم <span class="ph">[اسم الموقّع]</span> من فريق <span class="ph">[اسم المشروع]</span>.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Write 3 different replies to this positive Google Maps review: <span class="ph">[PASTE_REVIEW]</span>. Replies are short (2–3 lines), personal, mention something specific the customer said, and include a warm invitation to return. Reply language: same as the review (Arabic or English). Sign as <span class="ph">[SIGNER_NAME]</span> from the <span class="ph">[BUSINESS_NAME]</span> team.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>لا تنسخ نفس الرد لكل التقييمات؛ القراء يلاحظون الردود المكررة.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Don't paste the same reply under every review — readers notice copy-paste responses.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">39</div>
+    <div class="titles">
+      <h3>الرد على تقييم سلبي</h3>
+      <div class="t-en" lang="en">Replying to a Negative Review</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عند وصول تقييم سلبي، حتى لو شعرت أنه غير منصف.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When you get a negative review, even if you feel it's unfair.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>وصلنا هذا التقييم السلبي على خرائط Google: <span class="ph">[ألصق التقييم]</span>. ما حدث من وجهة نظرنا: <span class="ph">[شرح مختصر]</span>. اكتب ردًا علنيًا محترفًا: يشكر العميل على ملاحظته، يعتذر عن تجربته دون الاعتراف بأمور غير صحيحة، يوضح بإيجاز ما تم أو سيتم تحسينه، ويدعوه للتواصل على <span class="ph">[وسيلة التواصل]</span> لحل الأمر. لا تجادل، ولا تكشف أي معلومات شخصية عن العميل، ولا تتجاوز 70 كلمة.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>We received this negative Google Maps review: <span class="ph">[PASTE_REVIEW]</span>. What happened from our side: <span class="ph">[SHORT_EXPLANATION]</span>. Write a professional public reply that thanks the customer for the feedback, apologises for their experience without admitting things that aren't true, briefly says what was or will be improved, and invites them to contact <span class="ph">[CONTACT_METHOD]</span> to resolve it. Don't argue, don't reveal any personal customer information, and keep it under 70 words.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>الرد موجّه للعملاء المحتملين الذين يقرؤون أكثر من صاحب التقييم نفسه؛ اكتب له وأنت تتخيلهم.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Your reply is really for future customers reading it, more than the reviewer — write with them in mind.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">40</div>
+    <div class="titles">
+      <h3>الرد على تقييم بدون نص</h3>
+      <div class="t-en" lang="en">Replying to Star-Only Reviews</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عند وصول تقييمات بالنجوم فقط دون تعليق.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>For reviews with stars but no comment.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب 10 ردود قصيرة جدًا ومتنوعة (سطر واحد) على تقييمات بالنجوم بدون تعليق لـ <span class="ph">[اسم المشروع]</span>: 5 ردود لتقييمات 4–5 نجوم (شكر ودعوة للعودة)، و5 ردود لتقييمات 1–3 نجوم (شكر واعتذار ودعوة لمشاركة التفاصيل عبر <span class="ph">[وسيلة التواصل]</span>). اجعل نصفها بالعربية ونصفها بالإنجليزية.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Write 10 very short, varied (one-line) replies to star-only reviews for <span class="ph">[BUSINESS_NAME]</span>: 5 for 4–5 star ratings (thanks and invite back), and 5 for 1–3 star ratings (thanks, apology, invitation to share details via <span class="ph">[CONTACT_METHOD]</span>). Make half in Arabic and half in English.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>خصص وقتًا أسبوعيًا ثابتًا للرد على كل التقييمات الجديدة.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Set a fixed weekly time to reply to all new reviews.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">41</div>
+    <div class="titles">
+      <h3>تحليل التقييمات لتحسين العمل</h3>
+      <div class="t-en" lang="en">Analysing Reviews for Improvements</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>كل شهر أو ربع سنة.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>Monthly or quarterly.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>هذه مجموعة من تقييمات عملائنا (بعد حذف الأسماء): <span class="ph">[ألصق التقييمات]</span>. حلّلها واستخرج: (1) أكثر 3 أشياء يمدحها العملاء، (2) أكثر 3 شكاوى متكررة، (3) اقتراحات تحسين عملية لكل شكوى مرتبة حسب سهولة التنفيذ، (4) عبارات إيجابية استخدمها العملاء يمكنني الاستفادة من فكرتها في التسويق. اعتمد فقط على النص المرفق ولا تفترض أشياء غير مذكورة.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Here is a set of our customer reviews (names removed): <span class="ph">[PASTE_REVIEWS]</span>. Analyse them and extract: (1) the top 3 things customers praise, (2) the top 3 recurring complaints, (3) practical improvements for each complaint, ordered by ease of implementation, (4) positive phrases customers used whose ideas I could draw on in marketing. Rely only on the attached text and don't assume anything not mentioned.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>إذا أردت اقتباس تقييم عميل في إعلان، اقتبسه حرفيًا واستأذنه إن أمكن، ولا تعدّل كلامه.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>If you quote a customer review in an ad, quote it word for word, ask permission where possible, and never edit their words.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">42</div>
+    <div class="titles">
+      <h3>بطاقة دعوة للتقييم</h3>
+      <div class="t-en" lang="en">Review Request Card</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>لطباعتها ووضعها على الكاشير أو داخل الطلبات.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>To print for the counter or include in orders.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب نصًا لبطاقة صغيرة (بحجم بطاقة العمل) تُوضع مع الطلبات أو على الكاشير في <span class="ph">[اسم المشروع]</span>، تدعو العميل لتقييمنا على خرائط Google عبر رمز QR. النص: عنوان من 4 كلمات، سطر واحد يشرح لماذا يهمنا رأيه، وتعليمات من خطوتين. اكتب 3 خيارات بالعربية وخيارًا بالإنجليزية. لا تَعِد بأي مكافأة مقابل التقييم.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Write text for a small card (business-card size) to include with orders or place at the counter of <span class="ph">[BUSINESS_NAME]</span>, inviting customers to review us on Google Maps via a QR code. Text: a 4-word heading, one line on why their opinion matters, and two-step instructions. Write 3 Arabic options and one English option. Don't promise any reward for reviewing.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>يمكنك إنشاء رابط التقييم المباشر من لوحة ملف نشاطك على Google ثم تحويله إلى رمز QR.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>You can get a direct review link from your Google Business Profile dashboard and turn it into a QR code.</div>
+  </div>
+</article>
+</section>
+<section class="page" id="sec-hr">
+  <header class="sec-head">
+    <div class="num"><span>القسم 7</span> · <span lang="en" dir="ltr">SECTION 7</span></div>
+    <h2>التوظيف والموارد البشرية</h2>
+    <div class="en-title" lang="en">Hiring &amp; HR</div>
+    <div class="intro">إعلانات وظائف، أسئلة مقابلات، وتجهيز الموظف الجديد. راجع دائمًا نظام العمل السعودي ومنصة قوى في الأمور النظامية.<div class="en" lang="en">Job ads, interview questions and onboarding. Always check the Saudi Labor Law and the Qiwa platform for regulatory matters.</div></div>
+  </header>
+  
+<article class="card">
+  <div class="card-head">
+    <div class="id">43</div>
+    <div class="titles">
+      <h3>إعلان وظيفة</h3>
+      <div class="t-en" lang="en">Job Advertisement</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عند فتح وظيفة جديدة.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When opening a new position.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب إعلان وظيفة لمنصب <span class="ph">[المسمى الوظيفي]</span> في <span class="ph">[اسم المشروع]</span> بمدينة <span class="ph">[المدينة]</span>. نوع الدوام: <span class="ph">[كامل / جزئي / عن بعد / مرن]</span>. المهام الأساسية: <span class="ph">[المهام]</span>. المتطلبات: <span class="ph">[المتطلبات]</span>. ما نقدمه: <span class="ph">[الراتب أو النطاق، المزايا]</span>. التنسيق: مقدمة قصيرة عن المشروع، المهام، المتطلبات، ما نقدمه، طريقة التقديم عبر <span class="ph">[طريقة التقديم]</span>. اجعل الإعلان واضحًا ومحترمًا، وتجنب أي شروط تمييزية غير مرتبطة بالعمل. اكتب نسخة عربية وأخرى إنجليزية.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Write a job ad for a <span class="ph">[JOB_TITLE]</span> at <span class="ph">[BUSINESS_NAME]</span> in <span class="ph">[CITY]</span>. Type: <span class="ph">[full-time / part-time / remote / flexible]</span>. Key duties: <span class="ph">[DUTIES]</span>. Requirements: <span class="ph">[REQUIREMENTS]</span>. What we offer: <span class="ph">[SALARY_OR_RANGE, BENEFITS]</span>. Format: short intro to the business, duties, requirements, what we offer, how to apply via <span class="ph">[APPLICATION_METHOD]</span>. Keep it clear and respectful, avoiding any discriminatory conditions unrelated to the job. Write an Arabic and an English version.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>ذكر نطاق الراتب يوفر وقتك ووقت المتقدمين، ويجذب المرشحين الجادين.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Stating a salary range saves you and applicants time and attracts serious candidates.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">44</div>
+    <div class="titles">
+      <h3>أسئلة مقابلة عمل</h3>
+      <div class="t-en" lang="en">Interview Questions</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>قبل مقابلة مرشح.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>Before interviewing a candidate.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>أعدّ 12 سؤال مقابلة لوظيفة <span class="ph">[المسمى الوظيفي]</span> في <span class="ph">[نوع المشروع]</span>. قسّمها: 4 أسئلة عن الخبرة والمهارات، 4 أسئلة سلوكية («حدثني عن موقف...»)، 2 سؤال لموقف عملي من واقع عملنا مثل <span class="ph">[موقف حقيقي من العمل]</span>، و2 سؤال عن التوقعات والالتزام. لكل سؤال: ما الذي أبحث عنه في الإجابة الجيدة. تجنب الأسئلة الشخصية غير المرتبطة بالعمل.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Prepare 12 interview questions for a <span class="ph">[JOB_TITLE]</span> at a <span class="ph">[BUSINESS_TYPE]</span>. Split them: 4 on experience and skills, 4 behavioural ("Tell me about a time..."), 2 practical scenarios from our real work such as <span class="ph">[REAL_WORK_SITUATION]</span>, and 2 about expectations and commitment. For each, note what a good answer looks like. Avoid personal questions unrelated to the job.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>اسأل كل المرشحين نفس الأسئلة ودوّن ملاحظاتك فورًا؛ هذا يجعل المقارنة عادلة.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Ask every candidate the same questions and write notes immediately — it makes comparison fair.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">45</div>
+    <div class="titles">
+      <h3>نموذج تقييم المرشحين</h3>
+      <div class="t-en" lang="en">Candidate Scoring Sheet</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عند وجود أكثر من مرشح للوظيفة.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When you have several candidates for a role.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>أنشئ نموذج تقييم للمرشحين لوظيفة <span class="ph">[المسمى الوظيفي]</span> على شكل جدول. المعايير: <span class="ph">[المعايير: مهارة تقنية، تواصل، خبرة، التزام...]</span>. لكل معيار: وزن نسبي، ووصف لما يعنيه التقييم 1 و3 و5. أضف عمودًا للملاحظات وصفًا لحساب الدرجة النهائية. اجعله بسيطًا بحيث أستطيع نسخه إلى Excel أو Google Sheets.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Create a candidate scoring sheet for a <span class="ph">[JOB_TITLE]</span> as a table. Criteria: <span class="ph">[CRITERIA: technical skill, communication, experience, commitment...]</span>. For each criterion: a relative weight, and a description of what scores 1, 3 and 5 mean. Add a notes column and a row explaining how to calculate the final score. Keep it simple enough to copy into Excel or Google Sheets.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>حدد المعايير وأوزانها قبل المقابلات، وليس بعدها.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Set the criteria and weights before the interviews, not after.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">46</div>
+    <div class="titles">
+      <h3>خطة أول أسبوع للموظف الجديد</h3>
+      <div class="t-en" lang="en">New Hire First-Week Plan</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>قبل انضمام موظف جديد.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>Before a new employee starts.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>أعدّ خطة استقبال وتهيئة لأول 5 أيام لموظف جديد بوظيفة <span class="ph">[المسمى الوظيفي]</span> في <span class="ph">[اسم المشروع]</span>. لكل يوم: الأهداف، المهام، من يرافقه، وما يجب أن يتعلمه. أضف قائمة تحقق بالأمور الإدارية التي يجب تجهيزها قبل وصوله (حسابات، أدوات، عقد، تعريف بالفريق)، ورسالة ترحيب قصيرة تُرسل له قبل يوم من بدء العمل.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Create a 5-day onboarding plan for a new <span class="ph">[JOB_TITLE]</span> at <span class="ph">[BUSINESS_NAME]</span>. For each day: goals, tasks, who accompanies them, and what they should learn. Add a checklist of admin items to prepare before they arrive (accounts, tools, contract, team introduction), and a short welcome message to send them the day before they start.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>تأكد من توثيق العقد عبر منصة قوى حسب المتطلبات النظامية المعمول بها.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Make sure the contract is documented through the Qiwa platform as required by current regulations.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">47</div>
+    <div class="titles">
+      <h3>وصف وظيفي ومسؤوليات</h3>
+      <div class="t-en" lang="en">Job Description &amp; Responsibilities</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عندما تريد توضيح مسؤوليات موظف حالي أو جديد.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When you need to clarify responsibilities for a current or new employee.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب وصفًا وظيفيًا رسميًا لوظيفة <span class="ph">[المسمى الوظيفي]</span> في <span class="ph">[اسم المشروع]</span>. يشمل: الغرض من الوظيفة، المرجع الوظيفي (لمن يتبع)، المسؤوليات الأساسية (8–10 نقاط)، مؤشرات قياس الأداء المقترحة (4–5 مؤشرات قابلة للقياس)، المهارات المطلوبة، وساعات العمل <span class="ph">[ساعات العمل]</span>. اكتب بالعربية الفصحى، وأضف ملاحظة لي عن النقاط التي يجب أن تتوافق مع عقد العمل ونظام العمل.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Write a formal job description for a <span class="ph">[JOB_TITLE]</span> at <span class="ph">[BUSINESS_NAME]</span>. Include: purpose of the role, reporting line, core responsibilities (8–10 bullets), suggested KPIs (4–5 measurable ones), required skills, and working hours <span class="ph">[WORKING_HOURS]</span>. Write in Modern Standard Arabic and add a note to me on points that must align with the employment contract and the Labor Law.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>شارك الوصف مع الموظف واتفقا عليه؛ الوضوح يقلل الخلافات لاحقًا.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Share the description with the employee and agree on it together — clarity prevents disputes later.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">48</div>
+    <div class="titles">
+      <h3>رسالة اعتذار لمرشح</h3>
+      <div class="t-en" lang="en">Candidate Rejection Message</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>بعد انتهاء المقابلات واختيار مرشح آخر.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>After interviews, once you've chosen someone else.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب رسالة اعتذار مهذبة لمرشح تمت مقابلته لوظيفة <span class="ph">[المسمى الوظيفي]</span> ولم يتم اختياره. الرسالة تشكره على وقته، تبلغه بالقرار بوضوح ولطف، و<span class="ph">[اختياري: تذكر نقطة إيجابية لاحظناها: النقطة]</span>، وتخبره أننا سنحتفظ بملفه للفرص القادمة إن وافق. اكتب نسخة بالعربية وأخرى بالإنجليزية، كل منها أقل من 90 كلمة.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Write a polite rejection message to a candidate interviewed for <span class="ph">[JOB_TITLE]</span> who wasn't selected. It thanks them for their time, delivers the decision clearly and kindly, <span class="ph">[optional: mentions a positive point we noticed: POINT]</span>, and says we'll keep their profile for future roles if they agree. Write Arabic and English versions, each under 90 words.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>الرد على كل المرشحين — حتى بالرفض — يبني سمعة جيدة لمشروعك في سوق صغير.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Replying to every candidate — even with a no — builds your reputation in a small market.</div>
+  </div>
+</article>
+</section>
+<section class="page" id="sec-finance">
+  <header class="sec-head">
+    <div class="num"><span>القسم 8</span> · <span lang="en" dir="ltr">SECTION 8</span></div>
+    <h2>التخطيط والأساسيات المالية</h2>
+    <div class="en-title" lang="en">Planning &amp; Finance Basics</div>
+    <div class="intro">أوامر تساعدك على التفكير وتنظيم الأرقام. الذكاء الاصطناعي ليس محاسبًا قانونيًا؛ راجع الأرقام والقرارات المهمة مع مختص.<div class="en" lang="en">Prompts to help you think and organise numbers. AI is not a certified accountant — review important figures and decisions with a professional.</div></div>
+  </header>
+  
+<article class="card">
+  <div class="card-head">
+    <div class="id">49</div>
+    <div class="titles">
+      <h3>مخطط خطة عمل</h3>
+      <div class="t-en" lang="en">Business Plan Outline</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عند بدء مشروع جديد أو التقديم على تمويل.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When starting a business or applying for funding.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>ساعدني في إعداد مخطط خطة عمل لمشروع <span class="ph">[وصف المشروع]</span> في <span class="ph">[المدينة]</span>. أريد هيكلًا بالعناوين التالية: الملخص التنفيذي، المشكلة والحل، السوق المستهدف، المنافسون، نموذج الإيرادات، خطة التسويق، الفريق، الخطة التشغيلية، التوقعات المالية، المخاطر. تحت كل عنوان اكتب الأسئلة التي يجب أن أجيب عنها، ولا تكتب الإجابات نيابة عني ولا تخترع أرقامًا عن حجم السوق.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Help me outline a business plan for <span class="ph">[BUSINESS_DESCRIPTION]</span> in <span class="ph">[CITY]</span>. I want a structure with these headings: executive summary, problem and solution, target market, competitors, revenue model, marketing plan, team, operations plan, financial projections, risks. Under each heading list the questions I must answer — don't write the answers for me and don't invent market-size numbers.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>بعد أن تكتب إجاباتك، ألصقها واطلب منه أن «يكتشف الثغرات والافتراضات الضعيفة».</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Once you've written your answers, paste them back and ask it to "find gaps and weak assumptions".</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">50</div>
+    <div class="titles">
+      <h3>جدول تدفق نقدي بسيط</h3>
+      <div class="t-en" lang="en">Simple Cash-Flow Table</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>كل شهر لمعرفة هل ستكفي السيولة.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>Monthly, to check whether cash will last.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>أنشئ جدول تدفق نقدي لمدة <span class="ph">[عدد الأشهر]</span> أشهر لمشروعي. الرصيد الحالي: <span class="ph">[الرصيد]</span> ريال. الإيرادات المتوقعة شهريًا: <span class="ph">[الإيرادات]</span>. المصاريف الثابتة: <span class="ph">[الإيجار، الرواتب، الاشتراكات...]</span>. المصاريف المتغيرة: <span class="ph">[المشتريات، الشحن، الإعلانات...]</span>. الأعمدة: الشهر، الرصيد الافتتاحي، الإيرادات، المصاريف، صافي التدفق، الرصيد الختامي. أعطني أيضًا المعادلات لنقله إلى Google Sheets، ونبّهني إلى الشهر الذي قد يصبح فيه الرصيد منخفضًا.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Build a <span class="ph">[NUMBER_OF_MONTHS]</span>-month cash-flow table for my business. Current balance: <span class="ph">[BALANCE]</span> SAR. Expected monthly revenue: <span class="ph">[REVENUE]</span>. Fixed costs: <span class="ph">[RENT, SALARIES, SUBSCRIPTIONS...]</span>. Variable costs: <span class="ph">[PURCHASES, SHIPPING, ADS...]</span>. Columns: month, opening balance, revenue, expenses, net flow, closing balance. Also give me the formulas to move it into Google Sheets, and flag any month where the balance may run low.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>استخدم الجدول الذي ينتجه كقالب فقط، وأدخل الأرقام الفعلية في Google Sheets حيث تكون المعادلات دقيقة.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Use the generated table as a template only — enter real figures in Google Sheets, where formulas compute reliably.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">51</div>
+    <div class="titles">
+      <h3>حساب نقطة التعادل</h3>
+      <div class="t-en" lang="en">Break-Even Calculation</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>قبل تحديد سعر منتج أو فتح فرع جديد.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>Before pricing a product or opening a new branch.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اشرح لي خطوة بخطوة كيف أحسب نقطة التعادل لمشروعي، ثم احسبها بهذه الأرقام: المصاريف الثابتة الشهرية <span class="ph">[المبلغ]</span> ريال، سعر بيع الوحدة <span class="ph">[السعر]</span> ريال، التكلفة المتغيرة للوحدة <span class="ph">[التكلفة]</span> ريال. أظهر المعادلة وكل خطوة حسابية. ثم أعطني 3 سيناريوهات: لو رفعت السعر 10%، لو خفضت التكلفة 10%، لو زادت المصاريف الثابتة 20%.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Explain step by step how to calculate my break-even point, then calculate it with these figures: monthly fixed costs <span class="ph">[AMOUNT]</span> SAR, unit selling price <span class="ph">[PRICE]</span> SAR, variable cost per unit <span class="ph">[COST]</span> SAR. Show the formula and every calculation step. Then give me 3 scenarios: price +10%, cost −10%, fixed costs +20%.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>اطلب منه إظهار خطوات الحساب دائمًا؛ هذا يسهّل عليك اكتشاف أي خطأ.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Always ask it to show the calculation steps — it makes mistakes easy to spot.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">52</div>
+    <div class="titles">
+      <h3>تصنيف المصاريف</h3>
+      <div class="t-en" lang="en">Categorising Expenses</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>نهاية كل شهر.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>At the end of each month.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>هذه قائمة مصاريفي لهذا الشهر: <span class="ph">[ألصق القائمة: الوصف والمبلغ]</span>. صنّفها في فئات (إيجار، رواتب، مشتريات، تسويق، اشتراكات تقنية، نقل وشحن، رسوم حكومية، أخرى). أعطني جدولًا بالإجمالي لكل فئة ونسبتها من المجموع، ثم 3 ملاحظات عن أين يمكن التوفير. لا تفترض أي مصروف غير موجود في القائمة.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Here is my expense list for this month: <span class="ph">[PASTE_LIST: description and amount]</span>. Group them into categories (rent, salaries, purchases, marketing, tech subscriptions, transport &amp; shipping, government fees, other). Give me a table with the total per category and its share of the whole, then 3 notes on where I could save. Don't assume any expense that isn't on the list.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>لا تلصق أرقام حسابات بنكية أو بطاقات أو هويات في أي أداة ذكاء اصطناعي.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Never paste bank account numbers, card numbers or ID numbers into any AI tool.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">53</div>
+    <div class="titles">
+      <h3>تحليل SWOT</h3>
+      <div class="t-en" lang="en">SWOT Analysis</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عند التخطيط للسنة أو اتخاذ قرار كبير.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When planning the year or making a big decision.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>أجرِ تحليل SWOT (نقاط القوة، الضعف، الفرص، التهديدات) لمشروع <span class="ph">[وصف المشروع]</span> في <span class="ph">[المدينة]</span>. هذه معلومات عن وضعنا الحالي: <span class="ph">[المعلومات: الفريق، المنتجات، العملاء، المنافسون، التحديات]</span>. لكل قسم 4–5 نقاط مبنية على المعلومات فقط. ثم اقترح 3 إجراءات عملية للأشهر الثلاثة القادمة تستفيد من نقاط القوة والفرص.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Run a SWOT analysis (strengths, weaknesses, opportunities, threats) for <span class="ph">[BUSINESS_DESCRIPTION]</span> in <span class="ph">[CITY]</span>. Here's our current situation: <span class="ph">[INFO: team, products, customers, competitors, challenges]</span>. 4–5 points per quadrant based only on this information. Then suggest 3 practical actions for the next three months that build on strengths and opportunities.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>كلما كانت المعلومات التي تعطيها أدق وأصدق، كان التحليل أنفع.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>The more accurate and honest the information you give, the more useful the analysis.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">54</div>
+    <div class="titles">
+      <h3>أهداف ربع سنوية</h3>
+      <div class="t-en" lang="en">Quarterly Goals</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>في بداية كل ربع سنة.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>At the start of each quarter.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>ساعدني في تحديد 3 أهداف لمشروعي للربع القادم بطريقة SMART (محددة، قابلة للقياس، قابلة للتحقيق، ذات صلة، محددة بوقت). وضعنا الحالي: <span class="ph">[الوضع الحالي]</span>. ما أريد تحقيقه بشكل عام: <span class="ph">[الطموح]</span>. لكل هدف: المؤشر الذي سأقيسه، الرقم المستهدف <span class="ph">[اتركه لي لأحدده]</span>، و4 مهام أسبوعية تقرّبني منه. ثم اكتب جدول متابعة أسبوعيًا بسيطًا.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Help me set 3 SMART goals (specific, measurable, achievable, relevant, time-bound) for my business next quarter. Current situation: <span class="ph">[CURRENT_SITUATION]</span>. What I broadly want to achieve: <span class="ph">[AMBITION]</span>. For each goal: the metric I'll track, the target number <span class="ph">[LEAVE FOR ME TO SET]</span>, and 4 weekly tasks that move me toward it. Then write a simple weekly tracking table.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>ثلاثة أهداف تكفي. أكثر من ذلك يشتت التركيز في مشروع صغير.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Three goals is enough — more scatters focus in a small business.</div>
+  </div>
+</article>
+</section>
+<section class="page" id="sec-productivity">
+  <header class="sec-head">
+    <div class="num"><span>القسم 9</span> · <span lang="en" dir="ltr">SECTION 9</span></div>
+    <h2>الإنتاجية والبريد والاجتماعات</h2>
+    <div class="en-title" lang="en">Productivity, Email &amp; Meetings</div>
+    <div class="intro">وفّر وقتك في الكتابة اليومية: رسائل بريد، ملخصات اجتماعات، وتنظيم المهام.<div class="en" lang="en">Save time on daily writing: emails, meeting summaries and task organisation.</div></div>
+  </header>
+  
+<article class="card">
+  <div class="card-head">
+    <div class="id">55</div>
+    <div class="titles">
+      <h3>كتابة بريد إلكتروني رسمي</h3>
+      <div class="t-en" lang="en">Writing a Formal Email</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عند مراسلة جهة حكومية أو شركة أو مورد.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When writing to a government entity, company or supplier.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>اكتب بريدًا إلكترونيًا رسميًا باللغة العربية الفصحى من <span class="ph">[اسمي ومنصبي]</span> في <span class="ph">[اسم المشروع]</span> إلى <span class="ph">[الجهة أو الشخص]</span>. الغرض: <span class="ph">[الغرض]</span>. النقاط التي يجب ذكرها: <span class="ph">[النقاط]</span>. التنسيق: عنوان موضوع واضح، تحية رسمية مناسبة، فقرة الغرض، النقاط، الطلب المحدد مع موعد إن وجد، الختام والتوقيع. اكتب أيضًا نسخة إنجليزية من نفس البريد.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Write a formal email in Modern Standard Arabic from <span class="ph">[MY_NAME_AND_TITLE]</span> at <span class="ph">[BUSINESS_NAME]</span> to <span class="ph">[ENTITY_OR_PERSON]</span>. Purpose: <span class="ph">[PURPOSE]</span>. Points to include: <span class="ph">[POINTS]</span>. Format: clear subject line, appropriate formal greeting, purpose paragraph, the points, a specific request with a deadline if any, closing and signature. Also write an English version of the same email.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>اقرأ البريد بصوت عالٍ قبل إرساله؛ إن بدا متكلفًا اطلب «اجعله أبسط وأكثر مباشرة».</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Read it aloud before sending — if it sounds stiff, ask "make it simpler and more direct".</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">56</div>
+    <div class="titles">
+      <h3>ملخص اجتماع ومهام</h3>
+      <div class="t-en" lang="en">Meeting Summary &amp; Action Items</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>بعد أي اجتماع مع الفريق أو العميل.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>After any team or client meeting.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>هذه ملاحظاتي (أو نص التفريغ) من اجتماع <span class="ph">[موضوع الاجتماع]</span> بتاريخ <span class="ph">[التاريخ]</span>: <span class="ph">[ألصق الملاحظات]</span>. لخّصها في: (1) ملخص من 3 أسطر، (2) القرارات التي اتُّخذت، (3) جدول مهام: المهمة، المسؤول، الموعد النهائي، (4) أسئلة ما زالت مفتوحة. إذا لم يُذكر مسؤول أو موعد لمهمة، اكتب <span class="ph">[غير محدد]</span> ولا تفترضه. ثم اكتب رسالة متابعة قصيرة أرسلها للحضور.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Here are my notes (or transcript) from the <span class="ph">[MEETING_TOPIC]</span> meeting on <span class="ph">[DATE]</span>: <span class="ph">[PASTE_NOTES]</span>. Summarise into: (1) a 3-line summary, (2) decisions made, (3) an action table: task, owner, deadline, (4) open questions. If an owner or deadline wasn't mentioned, write <span class="ph">[NOT SPECIFIED]</span> rather than guessing. Then write a short follow-up message to send to attendees.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>احصل على موافقة الحضور قبل تسجيل الاجتماع، واحذف المعلومات الحساسة قبل لصق النص.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Get attendees' consent before recording, and remove sensitive information before pasting a transcript.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">57</div>
+    <div class="titles">
+      <h3>الرد على بريد طويل</h3>
+      <div class="t-en" lang="en">Replying to a Long Email</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عندما يصلك بريد طويل ولا تعرف من أين تبدأ.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When you get a long email and don't know where to start.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>وصلني هذا البريد: <span class="ph">[ألصق البريد]</span>. أولًا: لخّص لي ما يطلبه المرسل في 3 نقاط وأي مواعيد مذكورة. ثانيًا: اكتب ردًا <span class="ph">[رسميًا / ودّيًا]</span> يتضمن موقفي التالي: <span class="ph">[موقفي أو قراري]</span>. الرد واضح ومختصر ويجيب عن كل نقطة طلبها المرسل. اكتب الرد بنفس لغة البريد الأصلي.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>I received this email: <span class="ph">[PASTE_EMAIL]</span>. First: summarise what the sender is asking in 3 points, plus any deadlines mentioned. Second: write a <span class="ph">[formal / friendly]</span> reply that includes my position: <span class="ph">[MY_POSITION_OR_DECISION]</span>. The reply is clear, concise, and answers every point the sender raised. Write it in the same language as the original email.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>تحقق أن الرد لم يُضِف التزامات أو مواعيد لم تقررها أنت.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Check the reply hasn't added commitments or deadlines you didn't decide on.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">58</div>
+    <div class="titles">
+      <h3>ترتيب الأولويات اليومية</h3>
+      <div class="t-en" lang="en">Daily Priorities</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>صباح كل يوم مزدحم.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>On the morning of any busy day.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>هذه قائمة مهامي اليوم: <span class="ph">[ألصق القائمة]</span>. لدي <span class="ph">[عدد الساعات]</span> ساعات عمل متاحة، والتزامات ثابتة في <span class="ph">[الأوقات]</span>. رتّب المهام باستخدام مصفوفة أيزنهاور (عاجل/مهم)، ثم اقترح جدولًا زمنيًا لليوم يضع المهام التي تحتاج تركيزًا في الصباح، ويجمع المهام الصغيرة المتشابهة معًا، ويترك وقتًا لأوقات الصلاة والراحة. أخبرني بما يمكن تأجيله أو تفويضه.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Here is my task list for today: <span class="ph">[PASTE_LIST]</span>. I have <span class="ph">[NUMBER_OF_HOURS]</span> working hours available and fixed commitments at <span class="ph">[TIMES]</span>. Sort the tasks with the Eisenhower matrix (urgent/important), then propose a schedule that puts deep-focus tasks in the morning, batches similar small tasks, and leaves time for prayer times and breaks. Tell me what can be postponed or delegated.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>لا تملأ اليوم بالكامل؛ اترك ساعة فارغة للأمور الطارئة.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Don't fill the whole day — leave an hour free for the unexpected.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">59</div>
+    <div class="titles">
+      <h3>إجراء عمل موحد (SOP)</h3>
+      <div class="t-en" lang="en">Standard Operating Procedure (SOP)</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>عندما تريد أن يؤدي أي موظف مهمة متكررة بنفس الطريقة.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>When you want any employee to do a recurring task the same way.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>حوّل هذا الشرح العشوائي لطريقة أداء مهمة <span class="ph">[اسم المهمة]</span> إلى إجراء عمل موحد (SOP): <span class="ph">[اشرح المهمة بكلماتك]</span>. التنسيق: الهدف، متى تُنفَّذ، من المسؤول، الأدوات المطلوبة، الخطوات مرقمة وواضحة (كل خطوة تبدأ بفعل)، الأخطاء الشائعة وكيف نتجنبها، وقائمة تحقق نهائية. اكتبه بلغة بسيطة يفهمها موظف جديد.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Turn this rough explanation of how to do <span class="ph">[TASK_NAME]</span> into a standard operating procedure (SOP): <span class="ph">[EXPLAIN_THE_TASK_IN_YOUR_OWN_WORDS]</span>. Format: goal, when it's done, who's responsible, tools needed, clear numbered steps (each starting with a verb), common mistakes and how to avoid them, and a final checklist. Write in simple language a new employee can follow.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>سجّل شرحك صوتيًا وأنت تؤدي المهمة، ثم الصق التفريغ في الأمر بدل الكتابة.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>Record yourself explaining while doing the task, then paste the transcript instead of typing.</div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div class="id">60</div>
+    <div class="titles">
+      <h3>تحسين أي نص أو ترجمته</h3>
+      <div class="t-en" lang="en">Polish or Translate Any Text</div>
+    </div>
+  </div>
+  <div class="when">
+    <div><span class="lab">متى تستخدمه: </span>قبل نشر أو إرسال أي نص مهم.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">When to use: </span>Before publishing or sending any important text.</div>
+  </div>
+  <div class="prompt ar"><span class="lab">الأمر بالعربية</span>راجع هذا النص: <span class="ph">[ألصق النص]</span>. المطلوب: <span class="ph">[صحّح الأخطاء الإملائية والنحوية فقط / حسّن الأسلوب مع الحفاظ على المعنى / ترجمه إلى الإنجليزية / ترجمه إلى العربية]</span>. الجمهور: <span class="ph">[الجمهور]</span>. حافظ على المصطلحات وأسماء المنتجات كما هي. بعد النص المعدّل، اذكر في قائمة أهم التغييرات التي أجريتها ولماذا.</div>
+  <div class="prompt en" lang="en" dir="ltr"><span class="lab">PROMPT · ENGLISH</span>Review this text: <span class="ph">[PASTE_TEXT]</span>. Task: <span class="ph">[fix spelling and grammar only / improve style while keeping meaning / translate to English / translate to Arabic]</span>. Audience: <span class="ph">[AUDIENCE]</span>. Keep terms and product names unchanged. After the edited text, list the main changes you made and why.</div>
+  <div class="tip">
+    <div><span class="lab">نصيحة: </span>في الترجمة إلى العربية اطلب «ترجمة طبيعية كأن كاتبها عربي» وليس ترجمة حرفية.</div>
+    <div class="en" lang="en" dir="ltr"><span class="lab">Tip: </span>When translating into Arabic, ask for "a natural translation as if written by a native Arabic writer", not a literal one.</div>
+  </div>
+</article>
+</section>
+<section class="page">
+  <div class="closing">
+    <div class="mark">BSI</div>
+    <h2>شكرًا لك، وبالتوفيق في مشروعك</h2>
+    <div class="en-h" lang="en">Thank you — and best of luck with your business</div>
+    <p class="sub">هذه الحقيبة من <b>اذكى الأعمال الفائقة</b>. ابدأ بثلاثة أوامر فقط هذا الأسبوع، وجرّبها على مشروعك الحقيقي، ثم أضف غيرها تدريجيًا.
+      <span class="en" lang="en" style="display:block">This kit is by <b>Business Super Intelligence</b>. Start with just three prompts this week, try them on your real business, then add more gradually.</span></p>
+    <a class="link" href="[WEBSITE_URL]">bsi · [WEBSITE_URL]</a>
+    <p class="sub">لمزيد من الأدوات والموارد زر موقعنا. · <span lang="en">For more tools and resources, visit our website.</span></p>
+    <p class="legal">© اذكى الأعمال الفائقة | Business Super Intelligence. للاستخدام الشخصي والتجاري داخل مشروعك. لا يُسمح بإعادة بيع الحقيبة أو توزيعها.<br>
+      <span lang="en">For personal and in-business use. Reselling or redistributing this kit is not permitted.</span><br>
+      <span lang="en">Claude, ChatGPT, Gemini, Canva, Salla, Zid, Shopify, Google and WhatsApp are trademarks of their respective owners; BSI is not affiliated with them.</span></p>
+  </div>
+</section>
+</body>
+</html>

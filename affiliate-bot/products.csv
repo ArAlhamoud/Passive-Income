@@ -1,4 +1,10 @@
-id,name,category,why_it_sells,affiliate_url,image_url,active
-p001,Example Mini Desk Fan (USB-C),home-office,"Quiet, cheap, top seller every summer; great impulse buy",https://example.com/your-affiliate-link-1,,yes
-p002,Example Silicone Kitchen Utensil Set,kitchen,"Evergreen gift item, high ratings, under $30",https://example.com/your-affiliate-link-2,,yes
-p003,Example Magnetic Phone Car Mount,tech-accessories,"Solves a daily annoyance; very visual in short videos",https://example.com/your-affiliate-link-3,,no
+slug,name,category,kind,why_it_sells,affiliate_url,active
+canva,Canva Pro,design,affiliate,"Every small business needs social graphics; Arabic fonts and templates; AI tools built in",PASTE_YOUR_AFFILIATE_LINK,yes
+notion,Notion,productivity,affiliate,"All-in-one workspace for notes, tasks and wikis; Notion AI; pairs with our templates",PASTE_YOUR_AFFILIATE_LINK,yes
+elevenlabs,ElevenLabs,ai-voice,affiliate,"Realistic AI voiceovers including Arabic, for ads, reels and courses",PASTE_YOUR_AFFILIATE_LINK,yes
+descript,Descript,video,affiliate,"Edit video by editing text; fast for reels and podcasts",PASTE_YOUR_AFFILIATE_LINK,yes
+beehiiv,beehiiv,newsletter,affiliate,"Start a newsletter free; built-in monetization",PASTE_YOUR_AFFILIATE_LINK,yes
+hostinger,Hostinger,website,affiliate,"Cheap hosting + AI website builder for small shops",PASTE_YOUR_AFFILIATE_LINK,yes
+make,Make.com,automation,affiliate,"Automate repetitive work (WhatsApp, Sheets, orders) without code",PASTE_YOUR_AFFILIATE_LINK,yes
+amazon-sa-desk,Amazon.sa home-office picks,home-office,affiliate,"Desk gadgets for people working with AI tools; fast local delivery",PASTE_YOUR_AFFILIATE_LINK,no
+prompt-kit,AI Prompt Kit for Saudi Business Owners,our-products,own-product,"Our own bilingual kit: 60 ready prompts for marketing, WhatsApp replies, seasonal campaigns",PASTE_YOUR_GUMROAD_LINK,yes

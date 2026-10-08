@@ -1,0 +1,30 @@
+name: Sync links
+
+# When products.csv changes: update the click tracker and site/picks.json.
+# Needs repo secret SUPABASE_SECRET_KEY (Supabase → Project Settings → API keys → secret key).
+on:
+  push:
+    paths: ["affiliate-bot/products.csv"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python affiliate-bot/sync_links.py
+        env:
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+      - name: Commit picks.json
+        run: |
+          git config user.name "links-bot"
+          git config user.email "links-bot@users.noreply.github.com"
+          git add site/picks.json
+          git diff --cached --quiet || git commit -m "Update site picks"
+          git push
